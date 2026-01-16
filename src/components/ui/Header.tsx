@@ -60,24 +60,11 @@ export default function Header({ user }: { user: User | null }) {
                                         </div>
                                     </button>
                                     <div className="flex flex-col gap-1 mt-2">
-                                        <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold px-1">Estado de Libertad</span>
-                                        <div className="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/5">
-                                            <div className="p-2 bg-lime-lift/10 rounded-xl">
-                                                <DollarSign className="w-4 h-4 text-lime-lift" />
-                                            </div>
+                                        <div className="flex items-center gap-3 p-3">
                                             <div className="flex flex-col">
-                                                <span className="text-xl font-mono font-bold text-white">${savings.totalSaved.toFixed(0)}</span>
-                                                <span className="text-[8px] text-zinc-600 uppercase">Dinero Recuperado</span>
+                                                <span className="text-xs text-zinc-400 font-medium">{user.email}</span>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div className="pt-2">
-                                        <AuthorityRank votes={savings.totalIdentityVotes} />
-                                    </div>
-
-                                    <div className="pt-2 opacity-50">
-                                        <LifeTimer minutes={savings.totalLifeSaved} />
                                     </div>
                                 </div>
 
