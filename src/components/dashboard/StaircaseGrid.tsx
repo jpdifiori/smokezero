@@ -147,26 +147,25 @@ function GoalEditModal({ goal, onClose, onSave }: { goal: any, onClose: () => vo
                 </div>
 
                 <div className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">¿Qué te vas a regalar?</label>
-                            <input
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="Ej: Cena de gala"
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-serif italic"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">Inversión ($)</label>
-                            <input
-                                type="number"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                placeholder="0.00"
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-mono"
-                            />
-                        </div>
+                    <div>
+                        <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">¿Qué te vas a regalar?</label>
+                        <input
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Ej: Cena de gala"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-serif italic"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">Inversión ($)</label>
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="0.00"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-mono"
+                        />
                     </div>
 
                     <div>
