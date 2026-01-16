@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
@@ -17,9 +16,25 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
+import type { Metadata, Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#0c0c0c",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false, // App-like feel
+};
+
 export const metadata: Metadata = {
   title: "SmokeZero | Intervención Inmediata",
   description: "Sistema de cesación tabáquica integrado a Konkest.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "SmokeZero",
+  },
 };
 
 import Header from "@/components/ui/Header";
