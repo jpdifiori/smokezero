@@ -10,30 +10,32 @@ interface MasterButtonProps {
 export function MasterButton({ onClick, disabled }: MasterButtonProps) {
     return (
         <div className="relative flex items-center justify-center p-10">
-            {/* Minimal Pulse Ring */}
+            {/* Minimal Pulse Ring - Heartbeat synchronized */}
             <motion.div
                 className="absolute inset-0 rounded-full border border-orange-pulse/20"
                 animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.1, 0.3],
+                    scale: [1, 1.15, 1.1, 1.25, 1],
+                    opacity: [0.3, 0.5, 0.4, 0.6, 0.3],
                 }}
                 transition={{
-                    duration: 3,
+                    duration: 2,
                     repeat: Infinity,
+                    times: [0, 0.1, 0.2, 0.3, 1],
                     ease: "easeInOut",
                 }}
             />
 
-            {/* Main Button with Subtle Pulse */}
+            {/* Main Button with Heartbeat Pulse */}
             <motion.button
                 onClick={onClick}
                 disabled={disabled}
                 animate={{
-                    scale: [1, 1.03, 1],
+                    scale: [1, 1.08, 1.05, 1.12, 1],
                 }}
                 transition={{
-                    duration: 3,
+                    duration: 2,
                     repeat: Infinity,
+                    times: [0, 0.1, 0.2, 0.3, 1],
                     ease: "easeInOut",
                 }}
                 whileHover={{ scale: 1.05 }}
