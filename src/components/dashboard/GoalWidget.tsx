@@ -24,50 +24,38 @@ export function GoalWidget({ goal, daysSinceStart }: GoalWidgetProps) {
         <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-[32px] overflow-hidden group hover:border-lime-lift/20 transition-all duration-500"
+            className="w-full bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-[24px] p-4 group hover:border-lime-lift/20 transition-all duration-500 relative"
         >
-            <div className="relative h-28 w-full bg-zinc-800 flex items-center justify-center overflow-hidden">
-                {goal.goal_image_url ? (
-                    <img
-                        src={goal.goal_image_url}
-                        alt={goal.goal_name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                ) : (
-                    <div className="flex flex-col items-center gap-2 text-zinc-600">
-                        <Target className="w-8 h-8 opacity-20" />
-                        <span className="text-[8px] uppercase tracking-widest font-bold">Sin Imagen</span>
+            <div className="flex justify-between items-center mb-3">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-lime-lift/10 flex items-center justify-center border border-lime-lift/20">
+                        <Target className="w-4 h-4 text-lime-lift" />
                     </div>
-                )}
-
-                {/* Overlay with progress */}
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-core-black via-core-black/80 to-transparent">
-                    <div className="flex justify-between items-end">
-                        <div>
-                            <span className="text-[8px] text-lime-lift uppercase tracking-[0.2em] font-bold block mb-0.5">Próximo Objetivo</span>
-                            <h3 className="text-base font-serif italic text-white leading-tight">"{goal.goal_name}"</h3>
-                        </div>
-                        <div className="text-right">
-                            <div className="text-xl font-mono font-bold text-white leading-none">
-                                {Math.ceil(daysRemaining)}
-                            </div>
-                            <div className="text-[8px] text-zinc-500 uppercase tracking-widest">Días</div>
-                        </div>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="mt-2.5 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${progress}%` }}
-                            className="h-full bg-lime-lift shadow-[0_0_10px_#D1FF74]"
-                        />
+                    <div>
+                        <span className="text-[8px] text-lime-lift uppercase tracking-[0.2em] font-bold block">Próximo Objetivo</span>
+                        <h3 className="text-sm font-serif italic text-white/90">"{goal.goal_name}"</h3>
                     </div>
                 </div>
 
-                <div className="absolute top-3 right-3 bg-lime-lift/90 text-core-black p-1.5 rounded-lg shadow-lg">
-                    <Sparkles className="w-3 h-3" />
+                <div className="text-right">
+                    <div className="flex items-baseline gap-1 justify-end">
+                        <span className="text-lg font-mono font-bold text-white">{Math.ceil(daysRemaining)}</span>
+                        <span className="text-[8px] text-zinc-500 uppercase tracking-widest">Días</span>
+                    </div>
                 </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    className="h-full bg-lime-lift shadow-[0_0_10px_rgba(209,255,116,0.5)]"
+                />
+            </div>
+
+            <div className="absolute top-2 right-2 opacity-20">
+                <Sparkles className="w-2 h-2 text-lime-lift" />
             </div>
         </motion.div>
     );

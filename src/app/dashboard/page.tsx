@@ -127,8 +127,8 @@ export default function Home() {
                 />
 
                 <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   className="bg-zinc-900/40 backdrop-blur-sm border border-white/5 py-4 px-6 rounded-[24px] flex items-center justify-between group hover:border-lime-lift/20 transition-colors"
                 >
                   <div className="flex items-center gap-4">
@@ -184,7 +184,7 @@ export default function Home() {
 
               {/* Goal Widget */}
               {activeGoal && config?.manifesto_accepted_at && (
-                <div className="w-full mb-8">
+                <div className="w-full mb-6">
                   <GoalWidget
                     goal={activeGoal}
                     daysSinceStart={(new Date().getTime() - new Date(config.manifesto_accepted_at).getTime()) / (1000 * 60 * 60 * 24)}
