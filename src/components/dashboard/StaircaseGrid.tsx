@@ -117,7 +117,7 @@ function MilestoneCard({ goal, onEdit }: { goal: any, onEdit: () => void }) {
                 relative p-4 md:p-6 rounded-[28px] md:rounded-[32px] border transition-all cursor-default
                 ${isActive ? 'bg-zinc-900 border-lime-lift/40 shadow-[0_0_30px_rgba(209,255,116,0.1)] cursor-pointer' : ''}
                 ${isAchieved ? 'bg-zinc-900/50 border-white/10 opacity-80' : ''}
-                ${isLocked ? 'bg-transparent border-white/5 opacity-40' : ''}
+                ${isLocked ? 'bg-transparent border-white/5 opacity-60' : ''}
             `}
         >
             <div className="flex flex-col items-center text-center gap-4">
