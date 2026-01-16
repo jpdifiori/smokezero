@@ -101,12 +101,12 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-core-black text-white px-4 pt-24 pb-4 overflow-hidden relative">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-core-black text-white px-4 md:px-8 pt-20 pb-4 overflow-hidden relative">
 
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 to-core-black z-0 pointer-events-none" />
 
-      <div className="z-10 w-full max-w-4xl px-4 flex flex-col items-center">
+      <div className="z-10 w-full max-w-4xl px-2 md:px-4 flex flex-col items-center">
 
         <AnimatePresence mode="wait">
           {state === 'IDLE' && (
@@ -192,7 +192,9 @@ export default function Home() {
                 </div>
               )}
 
-              <MasterButton onClick={startIntervention} />
+              <div className="w-full max-w-[280px] md:max-w-none">
+                <MasterButton onClick={startIntervention} />
+              </div>
 
               {/* Staircase Grid */}
               <StaircaseGrid />

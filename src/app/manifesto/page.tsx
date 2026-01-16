@@ -31,12 +31,12 @@ function ManifestoContent() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-4xl md:text-6xl font-serif text-center mb-20 italic"
+                className="text-3xl md:text-6xl font-serif text-center mb-12 md:mb-20 italic leading-tight"
             >
                 La Matemática de tu Libertad
             </motion.h1>
 
-            <div className="space-y-12">
+            <div className="space-y-8 md:space-y-12">
                 {content.map((item, i) => (
                     <motion.p
                         key={i}
@@ -44,7 +44,7 @@ function ManifestoContent() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.8, delay: i * 0.1 }}
-                        className="text-xl md:text-2xl leading-relaxed text-zinc-300 font-light"
+                        className="text-lg md:text-2xl leading-relaxed text-zinc-300 font-light"
                     >
                         {typeof item.highlight === 'string' ? (
                             <>
@@ -62,38 +62,39 @@ function ManifestoContent() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 1, duration: 1 }}
-                className="mt-24 space-y-12"
+                className="mt-16 md:mt-24 space-y-10 md:space-y-12"
             >
-                <div className="bg-zinc-900/50 p-8 rounded-[32px] border border-white/5 space-y-6">
-                    <h3 className="text-orange-pulse font-bold uppercase tracking-widest text-center text-sm">Mi Declaración de Poder</h3>
+                <div className="bg-zinc-900/50 p-6 md:p-8 rounded-[28px] md:rounded-[32px] border border-white/5 space-y-6">
+                    <h3 className="text-orange-pulse font-bold uppercase tracking-widest text-center text-[10px] md:text-sm">Mi Declaración de Poder</h3>
 
                     <div className="flex flex-col gap-4">
-                        <label className="text-xs text-zinc-500 uppercase tracking-widest text-center">Escribe tu nombre para sellar este compromiso</label>
+                        <label className="text-[10px] text-zinc-500 uppercase tracking-widest text-center">Escribe tu nombre para sellar este compromiso</label>
                         <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Escribe tu nombre..."
-                            className="bg-transparent border-b-2 border-zinc-800 focus:border-orange-pulse outline-none text-2xl text-center py-2 font-serif italic transition-colors placeholder:text-zinc-700"
+                            placeholder="Tu nombre..."
+                            className="bg-transparent border-b-2 border-zinc-800 focus:border-orange-pulse outline-none text-xl md:text-2xl text-center py-2 font-serif italic transition-colors placeholder:text-zinc-700"
                         />
                     </div>
 
-                    <div className="p-6 bg-core-black/50 rounded-2xl border border-white/5 text-center">
-                        <p className="text-2xl md:text-3xl font-serif italic text-zinc-200">
+                    <div className="p-4 md:p-6 bg-core-black/50 rounded-2xl border border-white/5 text-center">
+                        <p className="text-xl md:text-3xl font-serif italic text-zinc-200">
                             "{statement}"
                         </p>
                     </div>
                 </div>
 
-                <form action={acceptManifesto} className="flex justify-center">
+                <form action={acceptManifesto} className="flex justify-center flex-col items-center gap-4">
                     <input type="hidden" name="identity_statement" value={statement} />
                     <button
                         type="submit"
                         disabled={!name}
-                        className="bg-lime-lift text-core-black px-12 py-5 rounded-full font-bold text-xl hover:scale-105 transition-all shadow-[0_0_40px_rgba(209,255,116,0.2)] uppercase tracking-widest disabled:opacity-30 disabled:hover:scale-100"
+                        className="w-full md:w-auto bg-lime-lift text-core-black px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-base md:text-xl hover:scale-105 transition-all shadow-[0_0_40px_rgba(209,255,116,0.2)] uppercase tracking-widest disabled:opacity-30 disabled:hover:scale-100"
                     >
-                        Acepto el desafío: Reclamar mi tiempo
+                        Aceptar Desafío
                     </button>
+                    <span className="text-[10px] text-zinc-600 uppercase tracking-widest md:hidden">Reclamar mi tiempo</span>
                 </form>
             </motion.div>
         </div>

@@ -28,7 +28,7 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
     };
 
     return (
-        <div className="w-full max-w-md mx-auto flex flex-col gap-6 px-4 pb-4 pt-0">
+        <div className="w-full max-w-md mx-auto flex flex-col gap-4 md:gap-6 px-2 md:px-4 pb-4 pt-0">
 
             {/* 1. Action Capacity */}
             <div className="flex flex-col gap-2">
@@ -63,7 +63,7 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
                         <button
                             key={item.id}
                             onClick={() => setSocialContext(item.id as SocialContext)}
-                            className={`flex flex-col items-center gap-2 py-3 rounded-2xl border transition-all ${socialContext === item.id ? 'bg-white/10 border-white/20 text-white' : 'bg-transparent border-white/5 text-zinc-600 hover:bg-white/5'}`}
+                            className={`flex flex-col items-center gap-2 py-3 md:py-4 rounded-2xl border transition-all ${socialContext === item.id ? 'bg-white/10 border-white/20 text-white' : 'bg-transparent border-white/5 text-zinc-600 hover:bg-white/5'}`}
                         >
                             <item.icon className="w-4 h-4" />
                             <span className="text-[10px] uppercase font-bold tracking-wider">{item.label}</span>
@@ -77,14 +77,14 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
                 <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold ml-1">Detonante Principal</span>
                 <div className="flex flex-wrap gap-1.5 justify-between">
                     {[
-                        { id: 'STRESS', label: 'Estrés / Ansiedad' },
+                        { id: 'STRESS', label: 'Estrés' },
                         { id: 'BOREDOM', label: 'Aburrimiento' },
-                        { id: 'SOCIAL_PRESSURE', label: 'Presión Social' }
+                        { id: 'SOCIAL_PRESSURE', label: 'Presión' }
                     ].map((item) => (
                         <button
                             key={item.id}
                             onClick={() => setEmotion(item.id as Emotion)}
-                            className={`flex-1 px-1 py-2 rounded-full border text-[10px] font-bold uppercase tracking-wider transition-all whitespace-nowrap ${emotion === item.id ? 'bg-lime-lift text-core-black border-lime-lift' : 'bg-transparent border-white/10 text-zinc-500 hover:border-white/20'}`}
+                            className={`flex-1 px-1 py-3 rounded-full border text-[10px] font-bold uppercase tracking-wider transition-all whitespace-nowrap ${emotion === item.id ? 'bg-lime-lift text-core-black border-lime-lift' : 'bg-transparent border-white/10 text-zinc-500 hover:border-white/20'}`}
                         >
                             {item.label}
                         </button>
@@ -96,7 +96,7 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
             <motion.button
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSubmit}
-                className="mt-4 w-full bg-white text-core-black py-4 rounded-full text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2"
+                className="mt-4 w-full bg-white text-core-black py-4 md:py-5 rounded-full text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2"
             >
                 <Shield className="w-4 h-4" />
                 Generar Escudo

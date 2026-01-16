@@ -60,10 +60,10 @@ export default function IdentityPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="max-w-4xl w-full z-10"
             >
-                <div className="text-center mb-16">
-                    <h1 className="text-zinc-500 text-xs tracking-[0.5em] font-bold uppercase mb-4">Módulo de Identidad</h1>
-                    <h2 className="text-4xl md:text-5xl font-serif italic mb-6">¿Quién vas a elegir ser hoy?</h2>
-                    <p className="text-zinc-400 text-lg font-light max-w-2xl mx-auto">
+                <div className="text-center mb-10 md:mb-16">
+                    <h1 className="text-zinc-500 text-[10px] md:text-xs tracking-[0.5em] font-bold uppercase mb-4">Módulo de Identidad</h1>
+                    <h2 className="text-3xl md:text-5xl font-serif italic mb-4 md:mb-6 leading-tight">¿Quién vas a elegir ser hoy?</h2>
+                    <p className="text-zinc-400 text-base md:text-lg font-light max-w-2xl mx-auto">
                         El tabaco no te define. Tu elección sí. Selecciona el arquetipo que guiará tu victoria.
                     </p>
                 </div>
@@ -87,8 +87,8 @@ export default function IdentityPage() {
                                 <identity.icon className={`w-7 h-7 ${selected === identity.id ? 'text-core-black' : 'text-zinc-400'}`} />
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-3 tracking-tight">{identity.title}</h3>
-                            <p className="text-zinc-500 text-sm leading-relaxed mb-8 group-hover:text-zinc-300 transition-colors">
+                            <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-3 tracking-tight">{identity.title}</h3>
+                            <p className="text-zinc-500 text-xs md:text-sm leading-relaxed mb-6 md:mb-8 group-hover:text-zinc-300 transition-colors">
                                 {identity.description}
                             </p>
 
@@ -124,11 +124,11 @@ export default function IdentityPage() {
                         <button
                             onClick={handleConfirm}
                             disabled={isPending}
-                            className={`bg-white text-core-black px-12 py-5 rounded-full font-bold text-xl transition-all flex items-center gap-3 shadow-2xl ${isPending ? 'opacity-70 cursor-wait' : 'hover:bg-zinc-200'
+                            className={`bg-white text-core-black px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-lg md:text-xl transition-all flex items-center gap-3 shadow-2xl ${isPending ? 'opacity-70 cursor-wait' : 'hover:bg-zinc-200'
                                 }`}
                         >
-                            {isPending ? 'Confirmando...' : `Confirmar Identidad: ${selected}`}
-                            {!isPending && <ChevronRight className="w-6 h-6" />}
+                            {isPending ? 'Confirmando...' : `Confirmar Identidad`}
+                            {!isPending && <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />}
                         </button>
                     )}
                 </motion.div>

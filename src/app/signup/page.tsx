@@ -13,11 +13,11 @@ export default function SignupPage(props: {
         <div className="min-h-screen flex flex-col items-center justify-center bg-core-black text-white p-4">
             <div className="w-full max-w-md space-y-8">
                 <div className="text-center">
-                    <h1 className="text-zinc-500 text-xs tracking-[0.5em] font-bold mb-4">SMOKEZERO</h1>
-                    <h2 className="text-3xl font-bold tracking-tight text-white/90">
+                    <h1 className="text-zinc-500 text-[10px] tracking-[0.5em] font-bold mb-4">SMOKEZERO</h1>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white/90">
                         Crear Cuenta
                     </h2>
-                    <p className="mt-2 text-sm text-zinc-500">
+                    <p className="mt-2 text-xs md:text-sm text-zinc-500">
                         Configura tu perfil para comenzar tu veto.
                     </p>
                 </div>

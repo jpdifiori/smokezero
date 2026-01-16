@@ -68,7 +68,7 @@ export function ProfilingCard({ onComplete, preFetchedData }: ProfilingCardProps
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full bg-zinc-900/40 p-8 rounded-[32px] border border-white/10 backdrop-blur-xl shadow-2xl relative overflow-hidden"
+            className="w-full bg-zinc-900/40 p-6 md:p-8 rounded-[28px] md:rounded-[32px] border border-white/10 backdrop-blur-xl shadow-2xl relative overflow-hidden"
         >
             {/* Background Icon */}
             <BrainCircuit className="absolute -right-4 -bottom-4 w-32 h-32 text-white/[0.02]" />
@@ -81,7 +81,7 @@ export function ProfilingCard({ onComplete, preFetchedData }: ProfilingCardProps
                     </span>
                 </div>
 
-                <h3 className="text-xl font-serif italic mb-8 px-4">
+                <h3 className="text-lg md:text-xl font-serif italic mb-6 md:mb-8 px-2 md:px-4">
                     "{data.question}"
                 </h3>
 
@@ -100,8 +100,8 @@ export function ProfilingCard({ onComplete, preFetchedData }: ProfilingCardProps
                                 value={answer}
                                 onChange={(e) => setAnswer(e.target.value)}
                                 disabled={status === 'pending'}
-                                placeholder="Escribe tu respuesta aquí..."
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 pr-14 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-zinc-600 disabled:opacity-50"
+                                placeholder="Escribe tu respuesta..."
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 md:py-4 px-6 pr-14 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-zinc-600 disabled:opacity-50"
                             />
                             <button
                                 type="submit"
@@ -111,7 +111,7 @@ export function ProfilingCard({ onComplete, preFetchedData }: ProfilingCardProps
                                 {status === 'pending' ? (
                                     <div className="w-5 h-5 border-2 border-core-black/20 border-t-core-black rounded-full animate-spin" />
                                 ) : (
-                                    <Send className="w-5 h-5" />
+                                    <Send className="w-4 h-4 md:w-5 md:h-5" />
                                 )}
                             </button>
                         </motion.form>
@@ -122,11 +122,11 @@ export function ProfilingCard({ onComplete, preFetchedData }: ProfilingCardProps
                             animate={{ opacity: 1, scale: 1 }}
                             className="flex flex-col items-center justify-center p-4 gap-2 text-lime-lift"
                         >
-                            <div className="w-12 h-12 bg-lime-lift/20 rounded-full flex items-center justify-center mb-2">
-                                <Sparkles className="w-6 h-6 animate-pulse" />
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-lime-lift/20 rounded-full flex items-center justify-center mb-2">
+                                <Sparkles className="w-5 h-5 md:w-6 md:h-6 animate-pulse" />
                             </div>
-                            <span className="text-sm font-bold uppercase tracking-widest">Rasgo Extraído</span>
-                            <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-medium italic">Tu perfil evoluciona...</span>
+                            <span className="text-xs md:text-sm font-bold uppercase tracking-widest">Rasgo Extraído</span>
+                            <span className="text-[9px] md:text-[10px] text-zinc-500 uppercase tracking-widest font-medium italic">Tu perfil evoluciona...</span>
                         </motion.div>
                     )}
                 </AnimatePresence>

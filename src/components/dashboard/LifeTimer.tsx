@@ -45,21 +45,21 @@ export const LifeTimer = ({ minutes, cigsPerDay = 20 }: LifeTimerProps) => {
                 <div className="flex items-center gap-2 mt-1">
                     <div className="flex flex-col items-center min-w-[32px]">
                         <span className="text-white text-xl font-mono font-bold leading-none">{days.toString().padStart(2, '0')}</span>
-                        <span className="text-[8px] text-zinc-600 font-mono uppercase mt-1">DD</span>
+                        <span className="text-[8px] text-white/50 font-mono uppercase mt-1">DD</span>
                     </div>
-                    <span className="text-zinc-700 font-bold mb-4">-</span>
+                    <span className="text-white/20 font-bold mb-4">-</span>
                     <div className="flex flex-col items-center min-w-[32px]">
                         <span className="text-white text-xl font-mono font-bold leading-none">{hours.toString().padStart(2, '0')}</span>
-                        <span className="text-[8px] text-zinc-600 font-mono uppercase mt-1">HH</span>
+                        <span className="text-[8px] text-white/50 font-mono uppercase mt-1">HH</span>
                     </div>
-                    <span className="text-zinc-700 font-bold mb-4">-</span>
+                    <span className="text-white/20 font-bold mb-4">-</span>
                     <div className="flex flex-col items-center min-w-[32px]">
                         <span className="text-white text-xl font-mono font-bold leading-none">{remainingMinutes.toString().padStart(2, '0')}</span>
-                        <span className="text-[8px] text-zinc-600 font-mono uppercase mt-1">MM</span>
+                        <span className="text-[8px] text-white/50 font-mono uppercase mt-1">MM</span>
                     </div>
                     <div className="flex flex-col items-start ml-2 pl-2 border-l border-white/5">
                         <span className="text-orange-pulse text-xs font-mono font-bold">{seconds.toString().padStart(2, '0')}s</span>
-                        <span className="text-[7px] text-zinc-600 uppercase tracking-tighter">Live</span>
+                        <span className="text-[7px] text-white/50 uppercase tracking-tighter">Live</span>
                     </div>
                 </div>
             </div>

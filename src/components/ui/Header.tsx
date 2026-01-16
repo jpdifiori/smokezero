@@ -21,10 +21,10 @@ export default function Header({ user }: { user: User | null }) {
     if (!user) return null;
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[500] bg-core-black/50 backdrop-blur-md border-b border-white/5 px-6 py-4 flex items-center justify-between">
+        <header className="fixed top-0 left-0 right-0 z-[500] bg-core-black/50 backdrop-blur-md border-b border-white/5 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
                 <Link href="/dashboard">
-                    <span className="text-white font-bold tracking-[0.2em] text-xs hover:opacity-80 transition-opacity cursor-pointer">SMOKEZERO</span>
+                    <span className="text-white font-bold tracking-[0.2em] text-[14px] hover:opacity-80 transition-opacity cursor-pointer">SMOKEZERO</span>
                 </Link>
             </div>
 

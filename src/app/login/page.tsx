@@ -9,11 +9,11 @@ export default async function LoginPage(props: {
         <div className="min-h-screen flex items-center justify-center bg-core-black text-white p-4">
             <div className="w-full max-w-md space-y-8">
                 <div className="text-center">
-                    <h1 className="text-zinc-500 text-xs tracking-[0.5em] font-bold mb-4">SMOKEZERO</h1>
-                    <h2 className="text-3xl font-bold tracking-tight text-white/90">
+                    <h1 className="text-zinc-500 text-[10px] tracking-[0.5em] font-bold mb-4">SMOKEZERO</h1>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white/90">
                         Bienvenido
                     </h2>
-                    <p className="mt-2 text-sm text-zinc-500">
+                    <p className="mt-2 text-xs md:text-sm text-zinc-500">
                         Tu sistema de intervención inmediata.
                     </p>
                 </div>
@@ -53,11 +53,8 @@ export default async function LoginPage(props: {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-full text-core-black bg-white hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-pulse transition-colors"
+                            className="group relative w-full flex justify-center py-3.5 md:py-3 px-4 border border-transparent text-sm font-medium rounded-full text-core-black bg-white hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-pulse transition-colors"
                         >
-                            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                {/* Lock Icon or similar */}
-                            </span>
                             Iniciar Sesión
                         </button>
                     </div>

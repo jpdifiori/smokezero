@@ -40,7 +40,7 @@ export function StaircaseGrid() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
                 {goals.map((goal, index) => (
                     <MilestoneCard
                         key={goal.milestone_days}
@@ -73,7 +73,7 @@ function MilestoneCard({ goal, onEdit }: { goal: any, onEdit: () => void }) {
             whileHover={isActive ? { y: -5 } : {}}
             onClick={onEdit}
             className={`
-                relative p-6 rounded-[32px] border transition-all cursor-default
+                relative p-4 md:p-6 rounded-[28px] md:rounded-[32px] border transition-all cursor-default
                 ${isActive ? 'bg-zinc-900 border-lime-lift/40 shadow-[0_0_30px_rgba(209,255,116,0.1)] cursor-pointer' : ''}
                 ${isAchieved ? 'bg-zinc-900/50 border-white/10 opacity-80' : ''}
                 ${isLocked ? 'bg-transparent border-white/5 opacity-40' : ''}
@@ -128,7 +128,7 @@ function GoalEditModal({ goal, onClose, onSave }: { goal: any, onClose: () => vo
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
-                className="w-full max-w-lg bg-zinc-900 border border-white/10 rounded-[40px] p-8 relative overflow-hidden shadow-2xl"
+                className="w-full max-w-lg bg-zinc-900 border border-white/10 rounded-[32px] md:rounded-[40px] p-6 md:p-8 relative overflow-hidden shadow-2xl"
             >
                 <button onClick={onClose} className="absolute right-6 top-6 text-zinc-500 hover:text-white">
                     <X className="w-6 h-6" />
@@ -157,7 +157,7 @@ function GoalEditModal({ goal, onClose, onSave }: { goal: any, onClose: () => vo
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">Inversión Necesaria ($)</label>
                             <input
