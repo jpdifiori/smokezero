@@ -7,21 +7,28 @@ import { getProfilingQuestion, saveProfilingAnswer } from '@/app/actions';
 
 interface ProfilingCardProps {
     onComplete: () => void;
+    preFetchedData?: { question: string, category: string } | null;
 }
 
-export function ProfilingCard({ onComplete }: ProfilingCardProps) {
-    const [data, setData] = useState<{ question: string, category: string } | null>(null);
+export function ProfilingCard({ onComplete, preFetchedData }: ProfilingCardProps) {
+    const [data, setData] = useState<{ question: string, category: string } | null>(preFetchedData || null);
     const [answer, setAnswer] = useState('');
-    const [status, setStatus] = useState<'loading' | 'idle' | 'pending' | 'success'>('loading');
+    const [status, setStatus] = useState<'loading' | 'idle' | 'pending' | 'success'>(preFetchedData ? 'idle' : 'loading');
 
     useEffect(() => {
+        if (preFetchedData) {
+            setData(preFetchedData);
+            setStatus('idle');
+            return;
+        }
+
         const fetchQuestion = async () => {
             const questionData = await getProfilingQuestion();
             setData(questionData);
             setStatus('idle');
         };
         fetchQuestion();
-    }, []);
+    }, [preFetchedData]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
