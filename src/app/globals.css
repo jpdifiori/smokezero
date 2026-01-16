@@ -5,7 +5,7 @@
   /* Core Black */
   --foreground: #ffffff;
   --lime-lift: #D1FF74;
-  --orange-pulse: #FF925E;
+  --orange-pulse: #ff8000;
 }
 
 @theme inline {
@@ -13,7 +13,7 @@
   --color-foreground: var(--foreground);
   --color-core-black: #1A1A1A;
   --color-lime-lift: #D1FF74;
-  --color-orange-pulse: #FF925E;
+  --color-orange-pulse: #ff8000;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-serif);
