@@ -12,6 +12,9 @@ import { useStats } from '@/providers/StatsProvider';
 import { DollarSign } from 'lucide-react';
 import { CrisisInput, CrisisContext } from '@/components/intervention/CrisisInput';
 import { ProfilingCard } from '@/components/dashboard/ProfilingCard';
+import { StaircaseGrid } from '@/components/dashboard/StaircaseGrid';
+import { GoalWidget } from '@/components/dashboard/GoalWidget';
+import { getSavingsGoals } from '@/app/actions';
 
 type InterventionState = 'IDLE' | 'AI_INTERVENTION' | 'TIMER' | 'SUCCESS' | 'FAILED';
 
@@ -22,6 +25,8 @@ export default function Home() {
   const [context, setContext] = useState<CrisisContext | null>(null);
   const [isLoadingMission, setIsLoadingMission] = useState(false);
   const [profilingQuestion, setProfilingQuestion] = useState<{ question: string, category: string } | null>(null);
+  const [goals, setGoals] = useState<any[]>([]);
+  const [activeGoal, setActiveGoal] = useState<any>(null);
 
   const { savings, config, loading, refreshStats } = useStats();
   const router = useRouter();
@@ -33,6 +38,13 @@ export default function Home() {
       router.push('/identity');
     } else if (!loading && config && !config.manifesto_accepted) {
       router.push(`/manifesto?type=${config.identity_type}`);
+    }
+
+    if (!loading && config) {
+      getSavingsGoals().then(allGoals => {
+        setGoals(allGoals);
+        setActiveGoal(allGoals.find(g => g.status === 'active'));
+      });
     }
   }, [config, loading, router]);
 
@@ -117,24 +129,73 @@ export default function Home() {
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="bg-zinc-900/40 backdrop-blur-sm border border-white/5 py-4 px-6 rounded-[24px] flex items-center gap-4 group hover:border-lime-lift/20 transition-colors"
+                  className="bg-zinc-900/40 backdrop-blur-sm border border-white/5 py-4 px-6 rounded-[24px] flex items-center justify-between group hover:border-lime-lift/20 transition-colors"
                 >
-                  <div className="w-10 h-10 min-w-10 bg-lime-lift/10 rounded-full flex items-center justify-center">
-                    <DollarSign className="text-lime-lift w-5 h-5" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Libertad</span>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-white text-xl font-mono font-bold">
-                        ${savings.totalSaved.toFixed(0)}
-                      </span>
-                      <span className="text-[10px] text-zinc-600 uppercase">Ahorrado</span>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 min-w-10 bg-lime-lift/10 rounded-full flex items-center justify-center">
+                      <DollarSign className="text-lime-lift w-5 h-5" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Libertad</span>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-white text-xl font-mono font-bold">
+                          ${savings.totalSaved.toFixed(0)}
+                        </span>
+                        <span className="text-[10px] text-zinc-600 uppercase">Ahorrado</span>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Circular Progress: Money Saved vs Target Amount */}
+                  {activeGoal && activeGoal.target_amount > 0 && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-[7px] text-zinc-500 uppercase tracking-tighter font-bold">Día {activeGoal.milestone_days}</span>
+                      <div className="relative w-10 h-10 flex items-center justify-center">
+                        <svg className="w-full h-full -rotate-90">
+                          <circle
+                            cx="20" cy="20" r="17"
+                            fill="transparent"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            className="text-white/5"
+                          />
+                          <motion.circle
+                            initial={{ pathLength: 0 }}
+                            animate={{
+                              pathLength: Math.min(1, savings.totalSaved / activeGoal.target_amount)
+                            }}
+                            transition={{ duration: 1.5, ease: "easeOut" }}
+                            cx="20" cy="20" r="17"
+                            fill="transparent"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            className="text-lime-lift"
+                          />
+                        </svg>
+                        <span className="absolute text-[7px] font-mono font-bold text-lime-lift">
+                          {Math.floor(Math.min(1, savings.totalSaved / activeGoal.target_amount) * 100)}%
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               </div>
 
+              {/* Goal Widget */}
+              {activeGoal && config?.manifesto_accepted_at && (
+                <div className="w-full mb-8">
+                  <GoalWidget
+                    goal={activeGoal}
+                    daysSinceStart={(new Date().getTime() - new Date(config.manifesto_accepted_at).getTime()) / (1000 * 60 * 60 * 24)}
+                  />
+                </div>
+              )}
+
               <MasterButton onClick={startIntervention} />
+
+              {/* Staircase Grid */}
+              <StaircaseGrid />
             </motion.div>
           )}
 
@@ -204,6 +265,22 @@ export default function Home() {
                   preFetchedData={profilingQuestion}
                 />
               </div>
+
+              {activeGoal && config && config.manifesto_accepted_at && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="mb-8 px-6 py-4 bg-lime-lift/5 border border-lime-lift/10 rounded-2xl"
+                >
+                  <p className="text-lime-lift text-sm font-bold uppercase tracking-widest">
+                    ¡Sumaste ${(config.pack_price / (config.pack_size || 20)).toFixed(2)}!
+                  </p>
+                  <p className="text-zinc-400 text-xs mt-1">
+                    Estás a {Math.ceil(Math.max(0, activeGoal.milestone_days - ((new Date().getTime() - new Date(config.manifesto_accepted_at).getTime()) / (1000 * 60 * 60 * 24))))} días de tu <span className="text-white italic">"{activeGoal.goal_name}"</span>
+                  </p>
+                </motion.div>
+              )}
 
               <div className="flex gap-4 justify-center mb-8 opacity-90">
                 <div className="bg-zinc-900/50 p-4 rounded-lg border border-white/5">

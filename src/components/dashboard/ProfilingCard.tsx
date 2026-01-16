@@ -36,7 +36,7 @@ export function ProfilingCard({ onComplete, preFetchedData }: ProfilingCardProps
 
         setStatus('pending');
         try {
-            const result = await saveProfilingAnswer(data.category, answer);
+            const result = await saveProfilingAnswer(data.category, answer, data.question);
             if (result.success) {
                 setStatus('success');
                 setTimeout(() => {

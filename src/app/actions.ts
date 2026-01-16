@@ -162,8 +162,93 @@ export async function updateFocusOrder(items: { id: string, priority: number, ca
     return { success: true };
 }
 
+// Helper function for getSavingsGoals
+async function getUserConfig() {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const { data: config } = await supabase
+        .schema('smokezero')
+        .from('user_config')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+    return config;
+}
+
 // --- AI CONTEXT HELPER ---
-async function getUserComprehensiveContext() {
+export async function getSavingsGoals() {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    const { data: goals, error } = await supabase
+        .schema('smokezero')
+        .from('savings_goals')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('milestone_days', { ascending: true });
+
+    if (error) return [];
+
+    // Calculate dynamic status based on startDate
+    const config = await getUserConfig();
+    if (!config || !config.manifesto_accepted_at) return [];
+
+    const startDate = new Date(config.manifesto_accepted_at);
+    const now = new Date();
+    const daysSinceQuit = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    const milestones = [7, 14, 21, 30, 60];
+    let foundActive = false;
+
+    return milestones.map(m => {
+        const existing = goals?.find(g => g.milestone_days === m);
+        let status: 'locked' | 'active' | 'achieved' = 'locked';
+
+        if (daysSinceQuit >= m) {
+            status = 'achieved';
+        } else if (!foundActive) {
+            status = 'active';
+            foundActive = true;
+        }
+
+        return {
+            milestone_days: m,
+            goal_name: existing?.goal_name || '',
+            target_amount: existing?.target_amount || 0,
+            goal_image_url: existing?.goal_image_url || '',
+            status,
+            id: existing?.id,
+            user_id: user.id
+        };
+    });
+}
+
+export async function updateSavingsGoal(milestone: number, updates: { goal_name: string, target_amount: number, goal_image_url?: string }) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { success: false, error: 'Unauthorized' };
+
+    const { error } = await supabase
+        .schema('smokezero')
+        .from('savings_goals')
+        .upsert({
+            user_id: user.id,
+            milestone_days: milestone,
+            ...updates
+        }, {
+            onConflict: 'user_id, milestone_days'
+        });
+
+    if (error) return { success: false, error: error.message };
+    revalidatePath('/dashboard');
+    return { success: true };
+}
+
+export async function getUserComprehensiveContext() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
@@ -205,7 +290,8 @@ async function getUserComprehensiveContext() {
         focusText,
         userTraits,
         historyText,
-        recentLogs: recentLogs.data || []
+        recentLogs: recentLogs.data || [],
+        activeGoal: (await getSavingsGoals()).find(g => g.status === 'active')
     };
 }
 
@@ -224,6 +310,11 @@ export async function getAdaptiveMission(context?: {
             - Entorno: ${context.socialContext}
             - Emoción: ${context.emotion}
         ` : "Contexto desconocido, asume situación estándar.";
+
+        const goalContext = coreContext.activeGoal ? `
+            HITO PRÓXIMO: Día ${coreContext.activeGoal.milestone_days}
+            RECOMPENSA: ${coreContext.activeGoal.goal_name} (Valor: $${coreContext.activeGoal.target_amount})
+        ` : "";
 
         const prompt = `
             Eres un estratega de intervención inmediata para SmokeZero. 
@@ -246,6 +337,9 @@ export async function getAdaptiveMission(context?: {
             2. EVITA REPETICIÓN: No uses frases de los FALLOS RECIENTES.
             3. ADAPTACIÓN FÍSICA: Si Capacidad es STATIC: NO sugieras movimiento. Usa: tensión isométrica, visualización, 4-7-8.
             4. TONO: Directo, de comando, sin relleno. 
+            5. RECOMPENSA: Si hay Recompensa, recuérdale que cada VETO lo acerca a ella físicamente.
+
+            ${goalContext}
 
             Responde ÚNICAMENTE con la frase de la misión.
         `;
@@ -275,6 +369,11 @@ export async function getDistractionPrompt() {
 
             HISTORIAL RECIENTE:
             ${coreContext.historyText}
+
+            ${coreContext.activeGoal ? `
+            HITO CRÍTICO: Día ${coreContext.activeGoal.milestone_days}
+            RECOMPENSA EN JUEGO: ${coreContext.activeGoal.goal_name}
+            ` : ""}
 
             Tarea: Genera UNA pregunta corta, disruptiva y poderosa (máximo 15 palabras).
             Reglas de Personalización:
@@ -469,34 +568,58 @@ export async function getProfilingQuestion() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { question: "¿Qué es lo que más valoras de tu libertad?", category: 'Personal' };
 
-    // Get asked history specifically to determine category
-    const { data: history } = await supabase.schema('smokezero').from('asked_questions').select('category').eq('user_id', user.id);
-    const askedCategories = history?.map(h => h.category) || [];
+    // 1. Get history of questions and categories
+    const { data: history } = await supabase
+        .schema('smokezero')
+        .from('asked_questions')
+        .select('category, question_text')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(20);
 
+    const askedCategories = history?.map(h => h.category) || [];
+    const recentQuestions = history?.map(h => h.question_text).filter(Boolean).slice(0, 5) || [];
+
+    // 2. Intelligent Category Rotation
     const categories = ['Salud', 'Finanzas', 'Social', 'Rutina', 'Disparadores'];
-    const availableCategories = categories.filter(c => !askedCategories.includes(c));
-    const targetCategory = availableCategories.length > 0
-        ? availableCategories[0]
-        : categories[Math.floor(Math.random() * categories.length)];
+
+    // Count occurrences of each category in history
+    const categoryCounts = categories.reduce((acc, cat) => {
+        acc[cat] = askedCategories.filter(c => c === cat).length;
+        return acc;
+    }, {} as Record<string, number>);
+
+    // Pick the one with the lowest count
+    const targetCategory = categories.sort((a, b) => categoryCounts[a] - categoryCounts[b])[0];
 
     try {
-        const prompt = `
-            Eres un experto en psicología del comportamiento. Tu objetivo es conocer mejor al usuario para personalizar su proceso de liberación.
-            
-            IDENTIDAD Y VALORES:
-            ${coreContext.focusText}
+        const goalContext = coreContext.activeGoal ? `
+            PRÓXIMA META: "${coreContext.activeGoal.goal_name}" (Día ${coreContext.activeGoal.milestone_days}).
+        ` : "";
 
-            PERFIL ACTUAL (Rasgos ya conocidos):
+        const prompt = `
+            Eres un experto en psicología del comportamiento de SmokeZero.
+            Tu misión es perfilar al usuario para personalizar su éxito.
+
+            IDENTIDAD Y FOCO:
+            ${coreContext.focusText}
+            ${goalContext}
+
+            PERFIL (Rasgos ya conocidos):
             [${coreContext.userTraits}]
 
-            Categoría a explorar: "${targetCategory}".
+            HISTORIAL RECIENTE (NO REPETIR TEMAS):
+            ${recentQuestions.length > 0 ? recentQuestions.join(' | ') : 'Sin preguntas previas.'}
 
-            Tarea: Genera UNA pregunta de perfilado progresivo. 
-            Reglas de oro:
-            1. No preguntes algo que ya sepamos (mira los Rasgos).
-            2. Usa su FOCO PRINCIPAL para darle relevancia. (Ej: Si su foco es 'Finanzas/Ahorro', y la categoría es 'Rutina', pregunta cómo fumar interfiere con sus planes de inversión diarios).
-            3. Tono: Curioso, profesional, motivador.
-            4. Máximo 15 palabras.
+            Categoría de exploración: "${targetCategory}".
+
+            Tarea: Genera UNA pregunta de perfilado progresivo.
+            Reglas de ORO:
+            1. NO REPETIR: Evita temas ya preguntados o rasgos ya conocidos.
+            2. CONTEXTO: Usa su META (si existe) para darle urgencia. 
+            3. PROFUNDIDAD: No preguntes "cómo estás". Pregunta sobre situaciones específicas, disparadores emocionales o sabotajes.
+            4. Tono: Inspirador, pero de alta exigencia mental.
+            5. Máximo 15 palabras.
 
             Devuelve ÚNICAMENTE un JSON:
             { "question": "La pregunta...", "category": "${targetCategory}" }
@@ -504,7 +627,7 @@ export async function getProfilingQuestion() {
 
         const result = await geminiModel.generateContent(prompt);
         const aiResponse = result.response.text();
-        const jsonStr = aiResponse.match(/\{.*\}/)?.[0];
+        const jsonStr = aiResponse.match(/\{[\s\S]*\}/)?.[0];
         if (!jsonStr) throw new Error("No JSON in AI response");
 
         return JSON.parse(jsonStr);
@@ -514,7 +637,7 @@ export async function getProfilingQuestion() {
     }
 }
 
-export async function saveProfilingAnswer(category: string, answer: string) {
+export async function saveProfilingAnswer(category: string, answer: string, questionText?: string) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
@@ -553,11 +676,12 @@ export async function saveProfilingAnswer(category: string, answer: string) {
                 trait_value,
                 category,
                 updated_at: new Date().toISOString()
-            }),
-            // Registrar categoría preguntada
+            }, { onConflict: 'user_id,trait_key' }),
+            // Registrar categoría y pregunta
             supabase.schema('smokezero').from('asked_questions').insert({
                 user_id: user.id,
-                category
+                category,
+                question_text: questionText
             })
         ]);
 
