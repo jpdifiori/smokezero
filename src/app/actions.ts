@@ -243,9 +243,34 @@ export async function updateSavingsGoal(milestone: number, updates: { goal_name:
             onConflict: 'user_id, milestone_days'
         });
 
-    if (error) return { success: false, error: error.message };
     revalidatePath('/dashboard');
     return { success: true };
+}
+
+// --- AI ADAPTIVE INTELLIGENCE: ANGLE ROTATION ---
+
+type ContextAngle = 'ARCHETYPE' | 'VALUES' | 'REWARD' | 'LEGACY' | 'LOGIC';
+
+async function selectContextAngle(userId: string): Promise<ContextAngle> {
+    const supabase = await createClient();
+    const { data: history } = await supabase
+        .schema('smokezero')
+        .from('asked_questions')
+        .select('category')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+    const angles: ContextAngle[] = ['ARCHETYPE', 'VALUES', 'REWARD', 'LEGACY', 'LOGIC'];
+    const usedAngles = history?.map(h => h.category as ContextAngle) || [];
+
+    // Find first angle not used in the last 2 interactions, or the least used
+    const angleCounts = angles.reduce((acc, ang) => {
+        acc[ang] = usedAngles.filter(ua => ua === ang).length;
+        return acc;
+    }, {} as Record<ContextAngle, number>);
+
+    return angles.sort((a, b) => angleCounts[a] - angleCounts[b])[0];
 }
 
 export async function getUserComprehensiveContext() {
@@ -303,6 +328,8 @@ export async function getAdaptiveMission(context?: {
     const coreContext = await getUserComprehensiveContext();
     if (!coreContext) return "Respira profundo y mantén el control.";
 
+    const angle = await selectContextAngle(coreContext.user.id);
+
     try {
         const currentContext = context ? `
             SITUACIÓN ACTUAL:
@@ -311,35 +338,31 @@ export async function getAdaptiveMission(context?: {
             - Emoción: ${context.emotion}
         ` : "Contexto desconocido, asume situación estándar.";
 
-        const goalContext = coreContext.activeGoal ? `
-            HITO PRÓXIMO: Día ${coreContext.activeGoal.milestone_days}
-            RECOMPENSA: ${coreContext.activeGoal.goal_name} (Valor: $${coreContext.activeGoal.target_amount})
-        ` : "";
-
         const prompt = `
             Eres un estratega de intervención inmediata para SmokeZero. 
             El usuario está en una crisis y necesita una "Micro-Misión" disruptiva.
             
-            IDENTIDAD Y VALORES:
-            ${coreContext.focusText}
-            
-            PERFIL PSICOLÓGICO:
-            - Rasgos: ${coreContext.userTraits}
-
             HISTORIAL DE COMPORTAMIENTO:
             ${coreContext.historyText}
 
             ${currentContext}
 
-            Tarea: Genera UNA acción (micro-misión) de máximo 15 palabras.
-            Reglas ESTRATÉGICAS:
-            1. PERSONALIZACIÓN MÁXIMA: Si su foco es 'Familia', apela a la protección o el ejemplo. Si es 'Atleta', apela al rendimiento.
-            2. EVITA REPETICIÓN: No uses frases de los FALLOS RECIENTES.
-            3. ADAPTACIÓN FÍSICA: Si Capacidad es STATIC: NO sugieras movimiento. Usa: tensión isométrica, visualización, 4-7-8.
-            4. TONO: Directo, de comando, sin relleno. 
-            5. RECOMPENSA: Si hay Recompensa, recuérdale que cada VETO lo acerca a ella físicamente.
+            ${coreContext.activeGoal ? `HITO PRÓXIMO: ${coreContext.activeGoal.goal_name} (Día ${coreContext.activeGoal.milestone_days})` : ""}
 
-            ${goalContext}
+            Tarea: Genera UNA acción (micro-misión) de máximo 15 palabras partiendo del ENFOQUE PSICOLÓGICO: "${angle}".
+            
+            GUÍA DE ENFOQUE:
+            - ARCHETYPE: Usa el "${coreContext.config?.identity_anchor || 'Libre'}" para dictar la acción.
+            - VALUES: Usa "${coreContext.focusText}" para apelar a lo que ama.
+            - REWARD: Usa el HITO PRÓXIMO para recordar la recompensa física.
+            - LEGACY: Apela a los minutos de vida ganados y salud.
+            - LOGIC: Acción técnica para romper el patrón del disparador "${context?.emotion || 'impulso'}".
+
+            Reglas:
+            1. PERSONALIZACIÓN: Sé específico según el perfil.
+            2. EVITA REPETICIÓN: No uses frases de los FALLOS RECIENTES.
+            3. ADAPTACIÓN FÍSICA: Si Capacidad es STATIC: NO sugieras movimiento. 
+            4. TONO: Directo, de comando. 
 
             Responde ÚNICAMENTE con la frase de la misión.
         `;
@@ -356,30 +379,27 @@ export async function getDistractionPrompt() {
     const coreContext = await getUserComprehensiveContext();
     if (!coreContext) return "¿Es este impulso más fuerte que tu libertad?";
 
+    const angle = await selectContextAngle(coreContext.user.id);
+
     try {
         const prompt = `
-            Actúa como un mentor de alto rendimiento experto en neurociencia.
-            El usuario está a punto de fumar y necesita una interrupción cognitiva inmediata.
-
-            CONTEXTO DE IDENTIDAD Y VALORES:
-            ${coreContext.focusText}
-
-            RASGOS DEL USUARIO:
-            - Perfil: ${coreContext.userTraits}
-
             HISTORIAL RECIENTE:
             ${coreContext.historyText}
 
-            ${coreContext.activeGoal ? `
-            HITO CRÍTICO: Día ${coreContext.activeGoal.milestone_days}
-            RECOMPENSA EN JUEGO: ${coreContext.activeGoal.goal_name}
-            ` : ""}
+            ${coreContext.activeGoal ? `RECOMPENSA EN JUEGO: ${coreContext.activeGoal.goal_name}` : ""}
 
-            Tarea: Genera UNA pregunta corta, disruptiva y poderosa (máximo 15 palabras).
-            Reglas de Personalización:
-            1. Usa el FOCO PRINCIPAL. Si es 'Familia', apela a la traición a su rol o al daño al ejemplo. Si es 'Atleta', apela a la destrucción del rendimiento.
-            2. Tono: Desafiante, de élite, sin rodeos. 
-            3. Evita clichés genéricos. Ataca el impulso usando lo que el usuario MÁS valora.
+            Tarea: Genera UNA pregunta disruptiva (máximo 15 palabras) bajo el ENFOQUE: "${angle}".
+            
+            GUÍA DE ENFOQUE:
+            - ARCHETYPE: Pregunta si su acción actual es digna de un "${coreContext.config?.identity_anchor || 'Libre'}".
+            - VALUES: Pregunta sobre la consecuencia de este fallo en su "${coreContext.focusText}".
+            - REWARD: Pregunta si un cigarrillo vale más que su "${coreContext.activeGoal?.goal_name || 'recompensa'}".
+            - LEGACY: Pregunta sobre el tiempo de vida que está tirando.
+            - LOGIC: Cuestiona la irracionalidad del impulso actual.
+
+            Reglas:
+            1. Tono: Desafiante, de élite, sin rodeos. 
+            2. Evita clichés. Ataca el impulso directamente.
 
             Responde ÚNICAMENTE con la pregunta.
         `;
@@ -580,17 +600,10 @@ export async function getProfilingQuestion() {
     const askedCategories = history?.map(h => h.category) || [];
     const recentQuestions = history?.map(h => h.question_text).filter(Boolean).slice(0, 5) || [];
 
-    // 2. Intelligent Category Rotation
-    const categories = ['Salud', 'Finanzas', 'Social', 'Rutina', 'Disparadores'];
-
-    // Count occurrences of each category in history
-    const categoryCounts = categories.reduce((acc, cat) => {
-        acc[cat] = askedCategories.filter(c => c === cat).length;
-        return acc;
-    }, {} as Record<string, number>);
+    const angle = await selectContextAngle(user.id);
 
     // Pick the one with the lowest count
-    const targetCategory = categories.sort((a, b) => categoryCounts[a] - categoryCounts[b])[0];
+    const targetAngle = angle;
 
     try {
         const goalContext = coreContext.activeGoal ? `
@@ -611,18 +624,25 @@ export async function getProfilingQuestion() {
             HISTORIAL RECIENTE (NO REPETIR TEMAS):
             ${recentQuestions.length > 0 ? recentQuestions.join(' | ') : 'Sin preguntas previas.'}
 
-            Categoría de exploración: "${targetCategory}".
+            Tarea: Genera UNA pregunta de perfilado progresivo bajo el ángulo psicológico: "${targetAngle}".
+            
+            ÁNGULOS DE REFERENCIA:
+            - ARCHETYPE: Identidad y esencia profunda.
+            - VALUES: Prioridades y personas amadas.
+            - REWARD: Metas físicas y recompensa financiera.
+            - LEGACY: Salud a largo plazo y tiempo recuperado.
+            - LOGIC: Patrones de consumo y disparadores de rutina.
 
-            Tarea: Genera UNA pregunta de perfilado progresivo.
             Reglas de ORO:
-            1. NO REPETIR: Evita temas ya preguntados o rasgos ya conocidos.
-            2. CONTEXTO: Usa su META (si existe) para darle urgencia. 
-            3. PROFUNDIDAD: No preguntes "cómo estás". Pregunta sobre situaciones específicas, disparadores emocionales o sabotajes.
-            4. Tono: Inspirador, pero de alta exigencia mental.
-            5. Máximo 15 palabras.
+            1. FOCO ESTRICTO: Si el ángulo es 'LEGACY', NO hables de dinero. Si es 'REWARD', NO hables de salud.
+            2. NO REPETIR: Evita temas ya preguntados o rasgos ya conocidos.
+            3. DINAMISMO: No menciones siempre el hito (ej: cena familiar) a menos que el ángulo sea 'REWARD'.
+            4. PROFUNDIDAD: Pregunta sobre situaciones específicas, disparadores emocionales o sabotajes.
+            5. Tono: Inspirador, pero de alta exigencia mental.
+            6. Máximo 15 palabras.
 
             Devuelve ÚNICAMENTE un JSON:
-            { "question": "La pregunta...", "category": "${targetCategory}" }
+            { "question": "La pregunta...", "category": "${targetAngle}" }
         `;
 
         const result = await geminiModel.generateContent(prompt);
