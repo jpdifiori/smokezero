@@ -13,16 +13,43 @@ export function GuardianFAB() {
             {/* FAB Button */}
             <motion.button
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                animate={{
+                    scale: [1, 1.05, 1],
+                    opacity: 1,
+                    boxShadow: [
+                        "0 0 20px rgba(209,255,116,0.3)",
+                        "0 0 35px rgba(209,255,116,0.6)",
+                        "0 0 20px rgba(209,255,116,0.3)"
+                    ]
+                }}
+                transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 z-[1000] w-14 h-14 bg-core-black border-2 border-lime-lift rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(209,255,116,0.3)] hover:shadow-[0_0_30px_rgba(209,255,116,0.5)] transition-shadow group"
+                className="fixed bottom-6 right-6 z-[1000] w-14 h-14 bg-core-black border-2 border-lime-lift rounded-full flex items-center justify-center transition-transform group overflow-hidden"
             >
-                <Shield className="w-6 h-6 text-lime-lift group-hover:scale-110 transition-transform" />
+                {/* Living Shine Effect */}
                 <motion.div
-                    animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.2, 1] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-10 skew-x-12"
+                    animate={{
+                        translateX: ['100%']
+                    }}
+                    transition={{
+                        repeat: Infinity,
+                        duration: 3,
+                        ease: "easeOut",
+                        repeatDelay: 1
+                    }}
+                />
+
+                <Shield className="w-6 h-6 text-lime-lift group-hover:scale-110 transition-transform relative z-20" />
+                <motion.div
+                    animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.3, 1] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                     className="absolute inset-0 rounded-full border border-lime-lift/30"
                 />
             </motion.button>
