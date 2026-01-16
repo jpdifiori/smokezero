@@ -120,7 +120,7 @@ export default function Home() {
 
 
               {/* Top Stats Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 w-full mb-[18px] md:mb-6">
                 <LifeTimer
                   minutes={savings.totalLifeSaved}
                   cigsPerDay={savings.cigsPerDay}
@@ -184,7 +184,7 @@ export default function Home() {
 
               {/* Goal Widget */}
               {activeGoal && config?.manifesto_accepted_at && (
-                <div className="w-full mb-6">
+                <div className="w-full mb-[18px] md:mb-6">
                   <GoalWidget
                     goal={activeGoal}
                     daysSinceStart={(new Date().getTime() - new Date(config.manifesto_accepted_at).getTime()) / (1000 * 60 * 60 * 24)}
