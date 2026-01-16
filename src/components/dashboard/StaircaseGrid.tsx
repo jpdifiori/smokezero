@@ -115,7 +115,7 @@ function MilestoneCard({ goal, onEdit }: { goal: any, onEdit: () => void }) {
 function GoalEditModal({ goal, onClose, onSave }: { goal: any, onClose: () => void, onSave: (m: number, u: any) => void }) {
     const [name, setName] = useState(goal.goal_name || '');
     const [amount, setAmount] = useState(goal.target_amount || '');
-    const [imageUrl, setImageUrl] = useState(goal.goal_image_url || '');
+    const [significance, setSignificance] = useState(goal.significance || '');
 
     return (
         <motion.div
@@ -141,25 +141,24 @@ function GoalEditModal({ goal, onClose, onSave }: { goal: any, onClose: () => vo
                     <div>
                         <h3 className="text-xl font-bold text-white uppercase tracking-tighter">Hito: Día {goal.milestone_days}</h3>
                         <p className="text-xs text-zinc-500 uppercase tracking-widest">
-                            {goal.goal_name ? 'Ajusta los detalles de tu meta' : 'Define tu próximo premio de libertad'}
+                            {goal.goal_name ? 'Ajusta tu compromiso' : 'Define tu próximo premio de libertad'}
                         </p>
                     </div>
                 </div>
 
                 <div className="space-y-6">
-                    <div>
-                        <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">Nombre de la Meta (Ej: Cena de celebración)</label>
-                        <input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="¿Qué te vas a regalar?"
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-serif italic"
-                        />
-                    </div>
-
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">Inversión Necesaria ($)</label>
+                            <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">¿Qué te vas a regalar?</label>
+                            <input
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Ej: Cena de gala"
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-serif italic"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">Inversión ($)</label>
                             <input
                                 type="number"
                                 value={amount}
@@ -168,23 +167,27 @@ function GoalEditModal({ goal, onClose, onSave }: { goal: any, onClose: () => vo
                                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-mono"
                             />
                         </div>
-                        <div>
-                            <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">Imagen URL</label>
-                            <div className="relative">
-                                <input
-                                    value={imageUrl}
-                                    onChange={(e) => setImageUrl(e.target.value)}
-                                    placeholder="https://..."
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 pr-12 text-sm focus:outline-none focus:border-white/20 transition-all truncate"
-                                />
-                                <ImageIcon className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
-                            </div>
-                        </div>
+                    </div>
+
+                    <div>
+                        <label className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-bold mb-2 block ml-1">¿Por qué es importante para ti?</label>
+                        <textarea
+                            value={significance}
+                            onChange={(e) => setSignificance(e.target.value)}
+                            placeholder="Describe el valor emocional de este hito..."
+                            rows={3}
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/20 transition-all font-normal leading-relaxed resize-none"
+                        />
+                        <p className="text-[9px] text-zinc-600 mt-2 ml-1 italic">Este motivo será usado por tu IA para darte fuerza en momentos críticos.</p>
                     </div>
 
                     <button
-                        onClick={() => onSave(goal.milestone_days, { goal_name: name, target_amount: parseFloat(amount), goal_image_url: imageUrl })}
-                        disabled={!name || !amount}
+                        onClick={() => onSave(goal.milestone_days, {
+                            goal_name: name,
+                            target_amount: parseFloat(amount),
+                            significance: significance
+                        })}
+                        disabled={!name || !amount || !significance}
                         className="w-full bg-lime-lift text-core-black font-bold py-5 rounded-2xl uppercase tracking-widest text-xs hover:scale-[1.02] transition-all disabled:opacity-20 flex items-center justify-center gap-2"
                     >
                         {goal.goal_name ? 'Guardar Ajustes' : 'Activar Meta'} <Sparkles className="w-4 h-4" />

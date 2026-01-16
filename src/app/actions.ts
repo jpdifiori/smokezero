@@ -220,6 +220,7 @@ export async function getSavingsGoals() {
             goal_name: existing?.goal_name || '',
             target_amount: existing?.target_amount || 0,
             goal_image_url: existing?.goal_image_url || '',
+            significance: existing?.significance || '',
             status,
             id: existing?.id,
             user_id: user.id
@@ -227,7 +228,7 @@ export async function getSavingsGoals() {
     });
 }
 
-export async function updateSavingsGoal(milestone: number, updates: { goal_name: string, target_amount: number, goal_image_url?: string }) {
+export async function updateSavingsGoal(milestone: number, updates: { goal_name: string, target_amount: number, goal_image_url?: string, significance?: string }) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { success: false, error: 'Unauthorized' };
@@ -278,12 +279,15 @@ export async function getUserComprehensiveContext() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
 
-    const [config, focusList, traits, recentLogs] = await Promise.all([
+    const [config, focusList, traits, recentLogs, goals] = await Promise.all([
         supabase.schema('smokezero').from('user_config').select('*').eq('user_id', user.id).single(),
         getUnifiedFocus(),
         supabase.schema('smokezero').from('progressive_profiling').select('*').eq('user_id', user.id),
-        supabase.schema('smokezero').from('smoke_logs').select('type, mission_text, created_at, intensity').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10)
+        supabase.schema('smokezero').from('smoke_logs').select('type, mission_text, created_at, intensity').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10),
+        getSavingsGoals()
     ]);
+
+    const activeGoal = goals.find(g => g.status === 'active');
 
     // Format traits into a readable string
     const userTraits = traits.data?.map(t => `${t.trait_key}: ${t.trait_value}`).join(', ') || 'sin rasgos específicos';
@@ -309,6 +313,11 @@ export async function getUserComprehensiveContext() {
         TASA DE ÉXITO ACTUAL: ${successRate}%
     `;
 
+    const goalContextText = activeGoal ? `
+        HITO ACTIVO: "${activeGoal.goal_name}" (Día ${activeGoal.milestone_days}).
+        POR QUÉ ES IMPORTANTE: "${activeGoal.significance || 'Sin especificar'}"
+    ` : '';
+
     return {
         user,
         config: config.data,
@@ -316,7 +325,8 @@ export async function getUserComprehensiveContext() {
         userTraits,
         historyText,
         recentLogs: recentLogs.data || [],
-        activeGoal: (await getSavingsGoals()).find(g => g.status === 'active')
+        activeGoal,
+        goalContextText
     };
 }
 
@@ -347,14 +357,14 @@ export async function getAdaptiveMission(context?: {
 
             ${currentContext}
 
-            ${coreContext.activeGoal ? `HITO PRÓXIMO: ${coreContext.activeGoal.goal_name} (Día ${coreContext.activeGoal.milestone_days})` : ""}
+            ${coreContext.goalContextText}
 
             Tarea: Genera UNA acción (micro-misión) de máximo 15 palabras partiendo del ENFOQUE PSICOLÓGICO: "${angle}".
             
             GUÍA DE ENFOQUE:
             - ARCHETYPE: Usa el "${coreContext.config?.identity_anchor || 'Libre'}" para dictar la acción.
             - VALUES: Usa "${coreContext.focusText}" para apelar a lo que ama.
-            - REWARD: Usa el HITO PRÓXIMO para recordar la recompensa física.
+            - REWARD: Usa el HITO ACTIVO y POR QUÉ ES IMPORTANTE para dar urgencia emocional.
             - LEGACY: Apela a los minutos de vida ganados y salud.
             - LOGIC: Acción técnica para romper el patrón del disparador "${context?.emotion || 'impulso'}".
 
@@ -386,14 +396,14 @@ export async function getDistractionPrompt() {
             HISTORIAL RECIENTE:
             ${coreContext.historyText}
 
-            ${coreContext.activeGoal ? `RECOMPENSA EN JUEGO: ${coreContext.activeGoal.goal_name}` : ""}
+            ${coreContext.goalContextText}
 
             Tarea: Genera UNA pregunta disruptiva (máximo 15 palabras) bajo el ENFOQUE: "${angle}".
             
             GUÍA DE ENFOQUE:
             - ARCHETYPE: Pregunta si su acción actual es digna de un "${coreContext.config?.identity_anchor || 'Libre'}".
             - VALUES: Pregunta sobre la consecuencia de este fallo en su "${coreContext.focusText}".
-            - REWARD: Pregunta si un cigarrillo vale más que su "${coreContext.activeGoal?.goal_name || 'recompensa'}".
+            - REWARD: Usa la significancia del HITO ACTIVO ("${coreContext.activeGoal?.significance || 'su meta'}") para cuestionar el valor del cigarrillo.
             - LEGACY: Pregunta sobre el tiempo de vida que está tirando.
             - LOGIC: Cuestiona la irracionalidad del impulso actual.
 
@@ -616,7 +626,7 @@ export async function getProfilingQuestion() {
 
             IDENTIDAD Y FOCO:
             ${coreContext.focusText}
-            ${goalContext}
+            ${coreContext.goalContextText}
 
             PERFIL (Rasgos ya conocidos):
             [${coreContext.userTraits}]
