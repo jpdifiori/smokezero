@@ -10,50 +10,56 @@ export function GuardianFAB() {
 
     return (
         <>
-            {/* FAB Button */}
-            <motion.button
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{
-                    scale: [1, 1.05, 1],
-                    opacity: 1,
-                    rotate: 360,
-                    boxShadow: [
-                        "0 0 20px rgba(209,255,116,0.3)",
-                        "0 0 35px rgba(209,255,116,0.6)",
-                        "0 0 20px rgba(209,255,116,0.3)"
-                    ]
-                }}
-                transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "linear"
-                }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 z-[1000] w-14 h-14 bg-core-black border-2 border-lime-lift rounded-full flex items-center justify-center transition-transform group overflow-hidden"
-            >
-                {/* Living Shine Effect */}
-                <motion.div
-                    className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-10 skew-x-12"
+            {/* FAB Container with Label */}
+            <div className="fixed bottom-6 right-6 z-[1000] flex flex-col items-center gap-2 pointer-events-none">
+                <span className="text-[10px] font-bold text-lime-lift uppercase tracking-[0.2em] bg-core-black/80 px-2 py-0.5 rounded-full backdrop-blur-sm border border-lime-lift/20 mb-1 pointer-events-auto">
+                    Guardian
+                </span>
+
+                <motion.button
+                    initial={{ scale: 0, opacity: 0 }}
                     animate={{
-                        translateX: ['100%']
+                        scale: [1, 1.05, 1],
+                        opacity: 1,
+                        rotate: 360,
+                        boxShadow: [
+                            "0 0 20px rgba(209,255,116,0.3)",
+                            "0 0 35px rgba(209,255,116,0.6)",
+                            "0 0 20px rgba(209,255,116,0.3)"
+                        ]
                     }}
                     transition={{
-                        repeat: Infinity,
-                        duration: 3,
-                        ease: "easeOut",
-                        repeatDelay: 1
+                        scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                        rotate: { duration: 8, repeat: Infinity, ease: "linear" }, // Slower rotation for better UX
+                        boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" }
                     }}
-                />
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setIsOpen(true)}
+                    className="w-14 h-14 bg-core-black border-2 border-lime-lift rounded-full flex items-center justify-center transition-transform group overflow-hidden pointer-events-auto"
+                >
+                    {/* Living Shine Effect */}
+                    <motion.div
+                        className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-10 skew-x-12"
+                        animate={{
+                            translateX: ['100%']
+                        }}
+                        transition={{
+                            repeat: Infinity,
+                            duration: 3,
+                            ease: "easeOut",
+                            repeatDelay: 1
+                        }}
+                    />
 
-                <Shield className="w-6 h-6 text-lime-lift group-hover:scale-110 transition-transform relative z-20" />
-                <motion.div
-                    animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.3, 1] }}
-                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                    className="absolute inset-0 rounded-full border border-lime-lift/30"
-                />
-            </motion.button>
+                    <Shield className="w-6 h-6 text-lime-lift group-hover:scale-110 transition-transform relative z-20" />
+                    <motion.div
+                        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.3, 1] }}
+                        transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                        className="absolute inset-0 rounded-full border border-lime-lift/30"
+                    />
+                </motion.button>
+            </div>
 
             {/* Chat Drawer / Overlay */}
             <AnimatePresence>
