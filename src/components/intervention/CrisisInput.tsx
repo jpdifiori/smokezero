@@ -32,18 +32,18 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
 
             {/* 1. Action Capacity */}
             <div className="flex flex-col gap-2">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold ml-1">Capacidad de Acción</span>
+                <span className="text-xs text-zinc-300 uppercase tracking-widest font-bold ml-1">Capacidad de Acción</span>
                 <div className="flex bg-zinc-900/50 p-1 rounded-2xl border border-white/5">
                     <button
                         onClick={() => setActionCapacity('STATIC')}
-                        className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${actionCapacity === 'STATIC' ? 'bg-white/10 text-white shadow-lg border border-white/10' : 'text-zinc-600 hover:text-zinc-400'}`}
+                        className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${actionCapacity === 'STATIC' ? 'bg-lime-lift text-core-black border-lime-lift shadow-lg' : 'bg-transparent text-zinc-600 hover:text-zinc-400 border border-transparent'}`}
                     >
                         <Armchair className="w-4 h-4" />
                         <span className="text-xs font-bold uppercase tracking-wider">Estático</span>
                     </button>
                     <button
                         onClick={() => setActionCapacity('MOVEMENT')}
-                        className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${actionCapacity === 'MOVEMENT' ? 'bg-orange-pulse/20 text-orange-pulse shadow-lg border border-orange-pulse/20' : 'text-zinc-600 hover:text-zinc-400'}`}
+                        className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${actionCapacity === 'MOVEMENT' ? 'bg-lime-lift text-core-black border-lime-lift shadow-lg' : 'bg-transparent text-zinc-600 hover:text-zinc-400 border border-transparent'}`}
                     >
                         <Activity className="w-4 h-4" />
                         <span className="text-xs font-bold uppercase tracking-wider">Movimiento</span>
@@ -53,7 +53,7 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
 
             {/* 2. Social Context */}
             <div className="flex flex-col gap-2">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold ml-1">Entorno Social</span>
+                <span className="text-xs text-zinc-300 uppercase tracking-widest font-bold ml-1">Entorno Social</span>
                 <div className="grid grid-cols-3 gap-2">
                     {[
                         { id: 'SOLO', label: 'Solo', icon: Shield },
@@ -63,7 +63,7 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
                         <button
                             key={item.id}
                             onClick={() => setSocialContext(item.id as SocialContext)}
-                            className={`flex flex-col items-center gap-2 py-3 md:py-4 rounded-2xl border transition-all ${socialContext === item.id ? 'bg-white/10 border-white/20 text-white' : 'bg-transparent border-white/5 text-zinc-600 hover:bg-white/5'}`}
+                            className={`flex flex-col items-center gap-2 py-3 md:py-4 rounded-2xl border transition-all ${socialContext === item.id ? 'bg-lime-lift border-lime-lift text-core-black' : 'bg-transparent border-white/5 text-zinc-600 hover:bg-white/5'}`}
                         >
                             <item.icon className="w-4 h-4" />
                             <span className="text-[10px] uppercase font-bold tracking-wider">{item.label}</span>
@@ -74,7 +74,7 @@ export function CrisisInput({ onConfirm }: CrisisInputProps) {
 
             {/* 3. Emotion / Trigger */}
             <div className="flex flex-col gap-2">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold ml-1">Detonante Principal</span>
+                <span className="text-xs text-zinc-300 uppercase tracking-widest font-bold ml-1">Detonante Principal</span>
                 <div className="flex flex-wrap gap-1.5 justify-between">
                     {[
                         { id: 'STRESS', label: 'Estrés' },

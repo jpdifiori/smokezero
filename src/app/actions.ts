@@ -163,7 +163,7 @@ export async function updateFocusOrder(items: { id: string, priority: number, ca
 }
 
 // Helper function for getSavingsGoals
-async function getUserConfig() {
+export async function getUserProfile() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
@@ -176,6 +176,28 @@ async function getUserConfig() {
         .single();
 
     return config;
+}
+
+export async function updateUserProfile(updates: {
+    first_name?: string,
+    last_name?: string,
+    profession?: string,
+    knowledge_base?: any
+}) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const { error } = await supabase
+        .schema('smokezero')
+        .from('user_config')
+        .update(updates)
+        .eq('user_id', user.id);
+
+    if (error) return { error: error.message };
+
+    revalidatePath('/dashboard');
+    return { success: true };
 }
 
 // --- AI CONTEXT HELPER ---
@@ -194,7 +216,7 @@ export async function getSavingsGoals() {
     if (error) return [];
 
     // Calculate dynamic status based on startDate
-    const config = await getUserConfig();
+    const config = await getUserProfile();
     if (!config || !config.manifesto_accepted_at) return [];
 
     const startDate = new Date(config.manifesto_accepted_at);
@@ -297,9 +319,22 @@ export async function getUserComprehensiveContext() {
     const primaryFocus = topFocus[0];
 
     const focusText = `
+        NOMRE: ${config.data?.first_name || 'No especificado'} ${config.data?.last_name || ''}.
+        PROFESIÓN: ${config.data?.profession || 'No especificada'}.
         FOCO PRINCIPAL: "${primaryFocus?.entity_name}" (${primaryFocus?.category}).
         APOYOS: ${topFocus.slice(1).map(f => `"${f.entity_name}"`).join(', ')}.
         IDENTIDAD ELEGIDA: ${config.data?.identity_anchor || 'Libre'}.
+    `;
+
+    // Knowledge Base (Family)
+    const kb = config.data?.knowledge_base || {};
+    const kbText = `
+        BASE DE CONOCIMIENTO PERSONAL:
+        - Cónyuge: ${kb.spouse || 'No especificado'}
+        - Madre: ${kb.mother || 'No especificado'}
+        - Padre: ${kb.father || 'No especificado'}
+        - Hijos: ${kb.children?.map((c: any) => `${c.name} (${c.age} años)`).join(', ') || 'Sin hijos registrados'}
+        - Hermanos: ${kb.siblings || 'Sin registrar'}
     `;
 
     // Behavioral Patterns
@@ -322,6 +357,7 @@ export async function getUserComprehensiveContext() {
         user,
         config: config.data,
         focusText,
+        kbText,
         userTraits,
         historyText,
         recentLogs: recentLogs.data || [],
@@ -842,3 +878,106 @@ export async function getBehaviorAnalytics() {
         aiPrediction
     };
 }
+
+// --- GUARDIAN AI ACTIONS ---
+
+export async function saveGuardianMessage(role: 'user' | 'assistant', content: string) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const { error } = await supabase
+        .schema('smokezero')
+        .from('guardian_messages')
+        .insert({ user_id: user.id, role, content });
+
+    if (error) return { error: error.message };
+    return { success: true };
+}
+
+export async function getGuardianMessages() {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    const { data: messages, error } = await supabase
+        .schema('smokezero')
+        .from('guardian_messages')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+        .limit(50);
+
+    if (error) return [];
+    return messages;
+}
+
+export async function getHealthRegeneration() {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    const { data: config } = await supabase
+        .schema('smokezero')
+        .from('user_config')
+        .select('manifesto_accepted_at')
+        .eq('user_id', user.id)
+        .single();
+
+    if (!config?.manifesto_accepted_at) return [];
+
+    const quitDate = new Date(config.manifesto_accepted_at);
+    const now = new Date();
+    const diffHours = (now.getTime() - quitDate.getTime()) / (1000 * 60 * 60);
+
+    return [
+        { label: 'Sentidos Olfato/Gusto', value: Math.min(100, Math.round((diffHours / 48) * 100)), description: 'Regeneración nerviosa' },
+        { label: 'Función Pulmonar', value: Math.min(100, Math.round((diffHours / 72) * 100)), description: 'Relajación de bronquios' },
+        { label: 'Riesgo Coronario', value: Math.min(100, Math.round((diffHours / (24 * 365)) * 100)), description: 'Reducción al 50%' }
+    ];
+}
+
+export async function getGuardianResponse(message: string, history: { role: string, content: string }[]) {
+    const ctx = await getUserComprehensiveContext();
+    if (!ctx) return { error: 'No context found' };
+
+    const savings = await getSavingsStats();
+    const daysSmokeFree = (savings as any).startDate
+        ? Math.floor((new Date().getTime() - new Date((savings as any).startDate).getTime()) / (1000 * 60 * 60 * 24))
+        : 0;
+
+    const masterPrompt = `
+        Sos el "Guardián de Libertad" para SmokeZero. 
+        Tu misión: Ser un Coach de Alto Rendimiento, empático pero firme. Hablar con autoridad.
+        
+        USUARIO: ${ctx.config?.first_name || 'Juan Pablo'}.
+        PROFESIÓN: ${ctx.config?.profession || 'Especialista'}.
+        IDENTIDAD: ${ctx.config?.identity_anchor || 'Atleta'}.
+        MOTIVACIONES: ${ctx.kbText}
+        AHORRO: $${(savings as any).totalSaved.toLocaleString()} (${daysSmokeFree} días libres).
+        META ACTIVA: ${ctx.activeGoal?.goal_name || 'Próximo hito'}.
+        
+        REGLAS DE ORO:
+        1. Lenguaje: Usá "Votos de Identidad", "Minutos de Vida Recuperados" y "Capital de Libertad".
+        2. Tono: Coach de elite. Usá siempre el VOSEO Argentino (vós, tenés, sentís, hacé).
+        3. Restricción: Sos experto en tabaquismo y longevidad. Si hablan de otra cosa, volvé al foco con elegancia.
+        4. Contexto: Usá sus motivaciones familiares y metas (como "El Cruce") para dar fuerza a tus respuestas.
+        
+        HISTORIAL DE LA SESIÓN:
+        ${history.slice(-5).map(h => `${h.role}: ${h.content}`).join('\n')}
+        
+        INPUT DEL USUARIO: "${message}"
+        
+        Respuesta CORTA, CLARA y EMOCIONAL. Máximo 2-3 frases potentes:
+    `;
+
+    try {
+        const result = await geminiModel.generateContent(masterPrompt);
+        const responseText = result.response.text();
+        return { response: responseText };
+    } catch (e) {
+        console.error('Guardian AI Error:', e);
+        return { error: 'El Guardián está meditando. Intentá de nuevo.' };
+    }
+}
+

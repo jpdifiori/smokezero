@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 };
 
 import Header from "@/components/ui/Header";
+import { GuardianFAB } from "@/components/guardian/GuardianFAB";
 import { createClient } from "@/lib/supabase/server";
 import { StatsProvider } from "@/providers/StatsProvider";
 
@@ -43,6 +44,7 @@ export default async function RootLayout({
         <StatsProvider>
           <Header user={user} />
           {children}
+          {user && <GuardianFAB />}
         </StatsProvider>
       </body>
     </html>

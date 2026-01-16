@@ -32,8 +32,8 @@ export function GoalWidget({ goal, daysSinceStart }: GoalWidgetProps) {
                         <Target className="w-4 h-4 text-lime-lift" />
                     </div>
                     <div>
-                        <span className="text-[8px] text-lime-lift uppercase tracking-[0.2em] font-bold block">Próximo Objetivo</span>
-                        <h3 className="text-sm font-serif italic text-white/90">"{goal.goal_name}"</h3>
+                        <span className="text-[10px] text-lime-lift uppercase tracking-[0.2em] font-bold block">Próximo Objetivo</span>
+                        <h3 className="text-base md:text-lg font-serif italic text-white/90">"{goal.goal_name}"</h3>
                     </div>
                 </div>
 

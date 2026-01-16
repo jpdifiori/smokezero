@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Lock, CheckCircle2, Image as ImageIcon, Sparkles, X } from 'lucide-react';
+import { Trophy, Lock, CheckCircle2, Image as ImageIcon, Sparkles, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getSavingsGoals, updateSavingsGoal } from '@/app/actions';
+import { useRef } from 'react';
 
 export function StaircaseGrid() {
     const [goals, setGoals] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingGoal, setEditingGoal] = useState<any>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const fetchGoals = async () => {
         const data = await getSavingsGoals();
@@ -20,6 +22,15 @@ export function StaircaseGrid() {
         fetchGoals();
     }, []);
 
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollRef.current) {
+            const { scrollLeft, clientWidth } = scrollRef.current;
+            const scrollAmount = clientWidth * 0.8;
+            const scrollTo = direction === 'left' ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
+            scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+        }
+    };
+
     const handleSave = async (milestone: number, updates: any) => {
         await updateSavingsGoal(milestone, updates);
         setEditingGoal(null);
@@ -30,24 +41,54 @@ export function StaircaseGrid() {
 
     return (
         <section className="w-full mt-12 mb-20 px-4">
-            <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-lime-lift/10 rounded-xl flex items-center justify-center">
-                    <Trophy className="text-lime-lift w-5 h-5" />
+            <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-lime-lift/10 rounded-xl flex items-center justify-center">
+                        <Trophy className="text-lime-lift w-5 h-5" />
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-white uppercase tracking-tighter">Mi Escalera de Libertad</h2>
+                        <p className="text-xs text-zinc-500 uppercase tracking-widest">Hitos de Victoria Secuenciales</p>
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-xl font-bold text-white uppercase tracking-tighter">Mi Escalera de Libertad</h2>
-                    <p className="text-xs text-zinc-500 uppercase tracking-widest">Hitos de Victoria Secuenciales</p>
+
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => scroll('left')}
+                        className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                        aria-label="Anterior"
+                    >
+                        <ChevronLeft className="w-5 h-5 text-white/50" />
+                    </button>
+                    <button
+                        onClick={() => scroll('right')}
+                        className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                        aria-label="Siguiente"
+                    >
+                        <ChevronRight className="w-5 h-5 text-white/50" />
+                    </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
-                {goals.map((goal, index) => (
-                    <MilestoneCard
-                        key={goal.milestone_days}
-                        goal={goal}
-                        onEdit={() => goal.status === 'active' && setEditingGoal(goal)}
-                    />
-                ))}
+            <div className="relative w-full">
+                <div
+                    ref={scrollRef}
+                    className="flex gap-4 overflow-x-auto pb-8 pt-2 px-2 scrollbar-hide snap-x snap-mandatory scroll-smooth"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                    {goals.map((goal, index) => (
+                        <div key={goal.milestone_days} className="flex-none w-[200px] md:w-[240px] snap-center">
+                            <MilestoneCard
+                                goal={goal}
+                                onEdit={() => goal.status === 'active' && setEditingGoal(goal)}
+                            />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Gradient Fades for Carousel indicators */}
+                <div className="absolute top-0 right-0 bottom-8 w-20 bg-gradient-to-l from-core-black to-transparent pointer-events-none z-10" />
+                <div className="absolute top-0 left-0 bottom-8 w-20 bg-gradient-to-r from-core-black to-transparent pointer-events-none z-10" />
             </div>
 
             <AnimatePresence>

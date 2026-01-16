@@ -39,27 +39,27 @@ export const LifeTimer = ({ minutes, cigsPerDay = 20 }: LifeTimerProps) => {
             </div>
             <div className="flex flex-col">
                 <div className="flex items-center gap-2">
-                    <span className="text-xs text-zinc-500 uppercase tracking-widest font-bold">Reserva de Vida</span>
-                    <Heart className="w-3 h-3 fill-[#d1ff74] text-[#d1ff74] animate-pulse drop-shadow-[0_0_5px_rgba(209,255,116,0.5)]" />
+                    <span className="text-xs text-zinc-300 uppercase tracking-widest font-bold">Reserva de Vida</span>
+                    <Heart className="w-4 h-4 fill-[#d1ff74] text-[#d1ff74] animate-pulse drop-shadow-[0_0_5px_rgba(209,255,116,0.5)]" />
                 </div>
                 <div className="flex items-center gap-2 mt-1">
                     <div className="flex flex-col items-center min-w-[32px]">
                         <span className="text-white text-xl font-mono font-bold leading-none">{days.toString().padStart(2, '0')}</span>
-                        <span className="text-[8px] text-white/50 font-mono uppercase mt-1">DD</span>
+                        <span className="text-[8px] text-lime-lift font-mono font-bold uppercase mt-1">DD</span>
                     </div>
                     <span className="text-white/20 font-bold mb-4">-</span>
                     <div className="flex flex-col items-center min-w-[32px]">
                         <span className="text-white text-xl font-mono font-bold leading-none">{hours.toString().padStart(2, '0')}</span>
-                        <span className="text-[8px] text-white/50 font-mono uppercase mt-1">HH</span>
+                        <span className="text-[8px] text-lime-lift font-mono font-bold uppercase mt-1">HH</span>
                     </div>
                     <span className="text-white/20 font-bold mb-4">-</span>
                     <div className="flex flex-col items-center min-w-[32px]">
                         <span className="text-white text-xl font-mono font-bold leading-none">{remainingMinutes.toString().padStart(2, '0')}</span>
-                        <span className="text-[8px] text-white/50 font-mono uppercase mt-1">MM</span>
+                        <span className="text-[8px] text-lime-lift font-mono font-bold uppercase mt-1">MM</span>
                     </div>
                     <div className="flex flex-col items-start ml-2 pl-2 border-l border-white/5">
                         <span className="text-orange-pulse text-xs font-mono font-bold">{seconds.toString().padStart(2, '0')}s</span>
-                        <span className="text-[7px] text-white/50 uppercase tracking-tighter">Live</span>
+                        <span className="text-[7px] text-lime-lift font-bold uppercase tracking-tighter">Live</span>
                     </div>
                 </div>
             </div>

@@ -9,7 +9,7 @@ import { logSmokeAttempt, getDistractionPrompt, getAdaptiveMission } from '@/app
 import { useRouter } from 'next/navigation';
 import { LifeTimer } from '@/components/dashboard/LifeTimer';
 import { useStats } from '@/providers/StatsProvider';
-import { DollarSign } from 'lucide-react';
+import { DollarSign, X } from 'lucide-react';
 import { CrisisInput, CrisisContext } from '@/components/intervention/CrisisInput';
 import { ProfilingCard } from '@/components/dashboard/ProfilingCard';
 import { StaircaseGrid } from '@/components/dashboard/StaircaseGrid';
@@ -136,7 +136,7 @@ export default function Home() {
                       <DollarSign className="text-lime-lift w-5 h-5" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Libertad</span>
+                      <span className="text-xs text-zinc-300 uppercase tracking-widest font-bold">Libertad</span>
                       <div className="flex items-baseline gap-1">
                         <span className="text-white text-xl font-mono font-bold">
                           ${savings.totalSaved.toFixed(0)}
@@ -204,11 +204,20 @@ export default function Home() {
           {state === 'AI_INTERVENTION' && (
             <motion.div
               key="ai"
-              className="w-full"
+              className="w-full relative"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -20 }}
             >
+              {/* Close Button */}
+              <button
+                onClick={handleReset}
+                className="absolute top-0 right-0 p-4 text-zinc-500 hover:text-white transition-colors z-[600]"
+                aria-label="Cerrar intervención"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
               <DistractionPrompt question={aiQuestion || "Analizando impulso..."} />
 
               <div className="mt-4">

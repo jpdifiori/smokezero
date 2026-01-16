@@ -6,16 +6,17 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useStats } from '@/providers/StatsProvider'
 import { LifeTimer } from '@/components/dashboard/LifeTimer'
-import { LogOut, User as UserIcon, ChevronDown, DollarSign, Target, Activity, Settings } from 'lucide-react'
+import { LogOut, User as UserIcon, ChevronDown, Target, Activity, Settings, UserCheck } from 'lucide-react'
 import Link from 'next/link'
-import { AuthorityRank } from '@/components/dashboard/AuthorityRank'
-import { FocusModal } from '@/components/profile/FocusModal'
-import { ConfigModal } from '@/components/profile/ConfigModal'
+import { FocusModal } from '../profile/FocusModal'
+import { ConfigModal } from '../profile/ConfigModal'
+import { ProfileModal } from '../profile/ProfileModal'
 
 export default function Header({ user }: { user: User | null }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isFocusModalOpen, setIsFocusModalOpen] = useState(false);
     const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const { savings, loading, config } = useStats();
 
     if (!user) return null;
@@ -105,6 +106,17 @@ export default function Header({ user }: { user: User | null }) {
                                         Configuración
                                     </button>
 
+                                    <button
+                                        onClick={() => {
+                                            setIsOpen(false);
+                                            setIsProfileModalOpen(true);
+                                        }}
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-zinc-300 hover:bg-white/5 transition-colors text-[10px] font-bold uppercase tracking-widest text-left"
+                                    >
+                                        <UserCheck className="w-4 h-4 text-lime-lift" />
+                                        Perfil
+                                    </button>
+
                                     <form action={logout}>
                                         <button
                                             type="submit"
@@ -122,6 +134,7 @@ export default function Header({ user }: { user: User | null }) {
 
                 <FocusModal isOpen={isFocusModalOpen} onClose={() => setIsFocusModalOpen(false)} />
                 <ConfigModal isOpen={isConfigModalOpen} onClose={() => setIsConfigModalOpen(false)} />
+                <ProfileModal isOpen={isProfileModalOpen} onClose={() => setIsProfileModalOpen(false)} />
             </div>
         </header>
     )
