@@ -21,6 +21,7 @@ export default function Home() {
   const [currentMission, setCurrentMission] = useState("");
   const [context, setContext] = useState<CrisisContext | null>(null);
   const [isLoadingMission, setIsLoadingMission] = useState(false);
+  const [profilingQuestion, setProfilingQuestion] = useState<{ question: string, category: string } | null>(null);
 
   const { savings, config, loading, refreshStats } = useStats();
   const router = useRouter();
@@ -37,8 +38,13 @@ export default function Home() {
 
   const startIntervention = async () => {
     setState('AI_INTERVENTION');
-    const question = await getDistractionPrompt();
+    // Pre-fetch both cognitive disruption and profiling question for stability
+    const [question, prefetchedQuestion] = await Promise.all([
+      getDistractionPrompt(),
+      import('@/app/actions').then(m => m.getProfilingQuestion())
+    ]);
     setAiQuestion(question);
+    setProfilingQuestion(prefetchedQuestion);
   };
 
   const handleContextConfirm = async (ctx: CrisisContext) => {
@@ -193,7 +199,10 @@ export default function Home() {
               <p className="text-zinc-400 mb-8">Has recuperado el control.</p>
 
               <div className="mb-12">
-                <ProfilingCard onComplete={handleReset} />
+                <ProfilingCard
+                  onComplete={handleReset}
+                  preFetchedData={profilingQuestion}
+                />
               </div>
 
               <div className="flex gap-4 justify-center mb-8 opacity-90">
