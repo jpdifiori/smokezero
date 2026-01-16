@@ -16,6 +16,7 @@ export function GuardianFAB() {
                 animate={{
                     scale: [1, 1.05, 1],
                     opacity: 1,
+                    rotate: 360,
                     boxShadow: [
                         "0 0 20px rgba(209,255,116,0.3)",
                         "0 0 35px rgba(209,255,116,0.6)",
@@ -25,7 +26,7 @@ export function GuardianFAB() {
                 transition={{
                     duration: 3,
                     repeat: Infinity,
-                    ease: "easeInOut"
+                    ease: "linear"
                 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
