@@ -39,7 +39,7 @@ export function MasterButton({ onClick, disabled }: MasterButtonProps) {
                 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-orange-pulse text-core-black font-bold text-lg md:text-2xl shadow-[0_0_80px_rgba(255,77,0,0.6)] z-10 flex flex-col items-center justify-center border-4 border-white/30 hover:border-white transition-all duration-300"
+                className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-orange-pulse text-core-black font-bold text-lg md:text-2xl shadow-[0_0_40px_rgba(255,122,48,0.3)] z-10 flex flex-col items-center justify-center border-4 border-white/10 hover:border-white/40 transition-all duration-500"
             >
                 <span className="uppercase tracking-[0.3em] text-[10px] md:text-xs mb-1 opacity-70">Urge?</span>
                 <span className="tracking-tighter">RESISTIR</span>
