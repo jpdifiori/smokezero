@@ -6,12 +6,13 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useStats } from '@/providers/StatsProvider'
 import { LifeTimer } from '@/components/dashboard/LifeTimer'
-import { LogOut, User as UserIcon, ChevronDown, Target, Activity, Settings, UserCheck, CreditCard } from 'lucide-react'
+import { LogOut, User as UserIcon, ChevronDown, Target, Activity, Settings, UserCheck, CreditCard, Download } from 'lucide-react'
 import Link from 'next/link'
 import { FocusModal } from '../profile/FocusModal'
 import { ConfigModal } from '../profile/ConfigModal'
 import { ProfileModal } from '../profile/ProfileModal'
 import { SubscriptionModal } from '../profile/SubscriptionModal'
+import { useEffect } from 'react'
 
 export default function Header({ user }: { user: User | null }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,26 @@ export default function Header({ user }: { user: User | null }) {
     const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
+    const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
     const { savings, loading, config } = useStats();
+
+    useEffect(() => {
+        const handler = (e: any) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+        };
+        window.addEventListener('beforeinstallprompt', handler);
+        return () => window.removeEventListener('beforeinstallprompt', handler);
+    }, []);
+
+    const handleInstallClick = async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            setDeferredPrompt(null);
+        }
+    };
 
     if (!user) return null;
 
@@ -31,7 +51,17 @@ export default function Header({ user }: { user: User | null }) {
                 </Link>
             </div>
 
-            <div className="relative">
+            <div className="flex items-center gap-3 relative">
+                {deferredPrompt && (
+                    <button
+                        onClick={handleInstallClick}
+                        className="flex items-center gap-2 bg-lime-lift/10 hover:bg-lime-lift/20 text-lime-lift px-3 py-1.5 rounded-full transition-colors border border-lime-lift/20"
+                    >
+                        <Download className="w-4 h-4" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest hidden sm:block">Instalar App</span>
+                    </button>
+                )}
+
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     className="flex items-center gap-3 bg-zinc-900/50 hover:bg-zinc-800 transition-colors border border-white/5 pl-2 pr-4 py-1.5 rounded-full"
