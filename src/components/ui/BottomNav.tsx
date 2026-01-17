@@ -61,31 +61,38 @@ export function BottomNav() {
                                 flex items-center gap-2 px-4 py-2 rounded-full transition-all relative group
                                 ${isGuardianOpen
                                     ? 'bg-lime-lift text-core-black shadow-[0_0_20px_rgba(209,255,116,0.5)]'
-                                    : 'bg-zinc-800/50 border border-white/5 text-zinc-400 hover:text-white hover:bg-zinc-800'
+                                    : 'bg-zinc-800/50 border border-lime-lift/30 text-lime-lift shadow-[0_0_15px_rgba(209,255,116,0.15)] hover:bg-zinc-800/80 hover:shadow-[0_0_20px_rgba(209,255,116,0.3)]'
                                 }
                             `}
                         >
-                            <Shield className={`w-5 h-5 relative z-10 transition-transform ${isGuardianOpen ? 'scale-110' : 'group-hover:scale-110'}`} />
+                            <Shield className={`w-4 h-4 relative z-10 transition-transform ${isGuardianOpen ? 'scale-110' : 'group-hover:scale-110'}`} />
                             <span className="text-[10px] font-bold uppercase tracking-[0.2em] relative z-10">
-                                Charlar
+                                Guardian
                             </span>
 
-                            {/* Active Support Gloom/Pulse */}
+                            {/* Enhanced Light Effect / Pulse */}
                             {!isGuardianOpen && (
-                                <motion.div
-                                    animate={{ opacity: [0, 0.4, 0], scale: [1, 1.2, 1.4] }}
-                                    transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-                                    className="absolute inset-0 rounded-full bg-lime-lift/10"
-                                />
+                                <>
+                                    <motion.div
+                                        animate={{ opacity: [0.1, 0.4, 0.1], scale: [1, 1.1, 1] }}
+                                        transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                                        className="absolute inset-0 rounded-full bg-lime-lift/20 blur-md pointer-events-none"
+                                    />
+                                    <motion.div
+                                        animate={{ opacity: [0, 0.6, 0], scale: [1, 1.2, 1.4] }}
+                                        transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
+                                        className="absolute inset-0 rounded-full border border-lime-lift/40 pointer-events-none"
+                                    />
+                                </>
                             )}
 
                             {/* Subtle sparkle for "Active AI" feel */}
                             <motion.div
-                                animate={{ opacity: [0.2, 0.5, 0.2] }}
+                                animate={{ opacity: [0.3, 0.9, 0.3], scale: [0.8, 1.2, 0.8] }}
                                 transition={{ repeat: Infinity, duration: 3 }}
                                 className="absolute -top-1 -right-1"
                             >
-                                <Sparkles className="w-3 h-3 text-lime-lift/40" />
+                                <Sparkles className="w-3 h-3 text-lime-lift" />
                             </motion.div>
                         </button>
                     </div>

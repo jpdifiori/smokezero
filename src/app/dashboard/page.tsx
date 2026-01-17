@@ -101,7 +101,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-core-black text-white px-4 md:px-8 pt-20 pb-4 overflow-hidden relative">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-core-black text-white px-4 md:px-8 pt-14 md:pt-20 pb-4 overflow-hidden relative">
 
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 to-core-black z-0 pointer-events-none" />
