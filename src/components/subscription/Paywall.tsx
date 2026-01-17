@@ -13,10 +13,19 @@ export function Paywall() {
             const response = await fetch('/api/stripe/checkout', {
                 method: 'POST',
             });
-            const { url } = await response.json();
-            if (url) window.location.href = url;
-        } catch (error) {
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error('Checkout Error:', data.error);
+                alert(`Error: ${data.error || 'Algo salió mal'}`);
+                setIsLoading(false);
+                return;
+            }
+
+            if (data.url) window.location.href = data.url;
+        } catch (error: any) {
             console.error('Subscription Error:', error);
+            alert(`Error de Conexión: ${error.message}`);
             setIsLoading(false);
         }
     };

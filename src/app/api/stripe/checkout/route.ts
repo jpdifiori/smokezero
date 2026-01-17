@@ -2,17 +2,27 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2025-01-27.acacia', // Use latest or matching api version
-});
+// Initialize Stripe safely
+const stripeSecret = process.env.STRIPE_SECRET_KEY;
+let stripe: Stripe | null = null;
+if (stripeSecret) {
+    stripe = new Stripe(stripeSecret, {
+        apiVersion: '2025-12-15.clover' as any, // Cast to any to avoid strict typing issues if SDK mismatch, but linter suggested this specific string.
+    });
+}
 
 export async function POST(req: Request) {
+    if (!stripe) {
+        console.error('Stripe Secret Key is missing');
+        return NextResponse.json({ error: 'Stripe configuration missing' }, { status: 500 });
+    }
+
     try {
         const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
-            return new NextResponse('Unauthorized', { status: 401 });
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
         // 1. Get User Config (for Customer ID)
@@ -44,12 +54,18 @@ export async function POST(req: Request) {
                 .eq('user_id', user.id);
         }
 
+        const priceId = process.env.STRIPE_PRICE_ID;
+        if (!priceId) {
+            console.error('STRIPE_PRICE_ID is missing');
+            return NextResponse.json({ error: 'Stripe Price ID configuration missing' }, { status: 500 });
+        }
+
         // 3. Create Checkout Session
         const session = await stripe.checkout.sessions.create({
             customer: customerId,
             line_items: [
                 {
-                    price: process.env.STRIPE_PRICE_ID, // Defined in .env
+                    price: priceId,
                     quantity: 1,
                 },
             ],
@@ -62,8 +78,8 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json({ url: session.url });
-    } catch (error) {
+    } catch (error: any) {
         console.error('[Stripe Checkout Error]', error);
-        return new NextResponse('Internal Error', { status: 500 });
+        return NextResponse.json({ error: error.message || 'Internal Error' }, { status: 500 });
     }
 }

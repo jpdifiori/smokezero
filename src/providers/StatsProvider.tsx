@@ -67,9 +67,45 @@ export function StatsProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
+    const [isPolling, setIsPolling] = useState(false);
+
     useEffect(() => {
         refreshStats();
     }, [refreshStats, pathname]);
+
+    // Polling for subscription activation
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        if (searchParams.get('success') === 'true' && !isPolling) {
+            console.log('Payment success detected, starting polling...');
+            setIsPolling(true);
+            const interval = setInterval(async () => {
+                const configData = await getUserConfig();
+                if (configData?.subscription_status === 'active') {
+                    console.log('Subscription active!');
+                    clearInterval(interval);
+                    setIsPolling(false);
+                    setConfig(configData);
+                    setShowPaywall(false);
+                    // Clear query param
+                    window.history.replaceState({}, '', pathname);
+                } else {
+                    console.log('Waiting for subscription activation...');
+                }
+            }, 2000);
+
+            // Stop polling after 30 seconds
+            const timeout = setTimeout(() => {
+                clearInterval(interval);
+                setIsPolling(false);
+            }, 30000);
+
+            return () => {
+                clearInterval(interval);
+                clearTimeout(timeout);
+            };
+        }
+    }, [pathname, isPolling]);
 
     return (
         <StatsContext.Provider value={{ savings, config, loading, refreshStats }}>

@@ -6,17 +6,19 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useStats } from '@/providers/StatsProvider'
 import { LifeTimer } from '@/components/dashboard/LifeTimer'
-import { LogOut, User as UserIcon, ChevronDown, Target, Activity, Settings, UserCheck } from 'lucide-react'
+import { LogOut, User as UserIcon, ChevronDown, Target, Activity, Settings, UserCheck, CreditCard } from 'lucide-react'
 import Link from 'next/link'
 import { FocusModal } from '../profile/FocusModal'
 import { ConfigModal } from '../profile/ConfigModal'
 import { ProfileModal } from '../profile/ProfileModal'
+import { SubscriptionModal } from '../profile/SubscriptionModal'
 
 export default function Header({ user }: { user: User | null }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isFocusModalOpen, setIsFocusModalOpen] = useState(false);
     const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
     const { savings, loading, config } = useStats();
 
     if (!user) return null;
@@ -117,6 +119,17 @@ export default function Header({ user }: { user: User | null }) {
                                         Perfil
                                     </button>
 
+                                    <button
+                                        onClick={() => {
+                                            setIsOpen(false);
+                                            setIsSubscriptionModalOpen(true);
+                                        }}
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-zinc-300 hover:bg-white/5 transition-colors text-[10px] font-bold uppercase tracking-widest text-left"
+                                    >
+                                        <CreditCard className="w-4 h-4 text-purple-400" />
+                                        Suscripción
+                                    </button>
+
                                     <form action={logout}>
                                         <button
                                             type="submit"
@@ -135,6 +148,7 @@ export default function Header({ user }: { user: User | null }) {
                 <FocusModal isOpen={isFocusModalOpen} onClose={() => setIsFocusModalOpen(false)} />
                 <ConfigModal isOpen={isConfigModalOpen} onClose={() => setIsConfigModalOpen(false)} />
                 <ProfileModal isOpen={isProfileModalOpen} onClose={() => setIsProfileModalOpen(false)} />
+                <SubscriptionModal isOpen={isSubscriptionModalOpen} onClose={() => setIsSubscriptionModalOpen(false)} />
             </div>
         </header>
     )
