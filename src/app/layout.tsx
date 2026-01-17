@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 import Header from "@/components/ui/Header";
-import { GuardianFAB } from "@/components/guardian/GuardianFAB";
+import { GuardianDrawer } from "@/components/guardian/GuardianDrawer";
 import { createClient } from "@/lib/supabase/server";
 import { StatsProvider } from "@/providers/StatsProvider";
 import { BottomNav } from "@/components/ui/BottomNav";
@@ -64,6 +64,7 @@ export default async function RootLayout({
             <main className="pb-24">
               {children}
             </main>
+            <GuardianDrawer />
             {user && (
               <BottomNav />
             )}
