@@ -55,6 +55,38 @@ export async function logSmokeAttempt(data: {
     return { success: true };
 }
 
+export async function checkAccess(): Promise<{ allowed: boolean; reason?: 'trial_ended' | 'no_subscription' }> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { allowed: false, reason: 'no_subscription' };
+
+    const { data: config } = await supabase
+        .schema('smokezero')
+        .from('user_config')
+        .select('created_at, subscription_status, subscription_end_date')
+        .eq('user_id', user.id)
+        .single();
+
+    if (!config) return { allowed: false, reason: 'no_subscription' };
+
+    // 1. Check Subscription
+    if (config.subscription_status === 'active') {
+        return { allowed: true };
+    }
+
+    // 2. Check Trial (24 hours)
+    const createdAt = new Date(config.created_at);
+    const now = new Date();
+    const hoursSinceSignup = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
+
+    if (hoursSinceSignup < 24) {
+        return { allowed: true };
+    }
+
+    return { allowed: false, reason: 'trial_ended' };
+}
+
 export async function getUnifiedFocus() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();

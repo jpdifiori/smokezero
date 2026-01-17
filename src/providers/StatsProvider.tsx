@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { getSavingsStats } from '@/app/actions';
 import { getUserConfig, type UserConfig } from '@/lib/user-config';
 import { usePathname } from 'next/navigation';
+import { Paywall } from '@/components/subscription/Paywall';
 
 interface StatsContextType {
     savings: {
@@ -33,6 +34,8 @@ export function StatsProvider({ children }: { children: React.ReactNode }) {
 
     const pathname = usePathname();
 
+    const [showPaywall, setShowPaywall] = useState(false);
+
     const refreshStats = useCallback(async () => {
         const [configData, statsData] = await Promise.all([
             getUserConfig(),
@@ -43,6 +46,25 @@ export function StatsProvider({ children }: { children: React.ReactNode }) {
         setConfig(configData);
         setSavings(statsData as any);
         setLoading(false);
+
+        // Check Access
+        if (configData) {
+            const isSubscribed = configData.subscription_status === 'active';
+            if (isSubscribed) {
+                setShowPaywall(false);
+                return;
+            }
+
+            const createdAt = new Date(configData.created_at || new Date().toISOString());
+            const now = new Date();
+            const hoursSinceSignup = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
+
+            if (hoursSinceSignup >= 24) {
+                setShowPaywall(true);
+            } else {
+                setShowPaywall(false);
+            }
+        }
     }, []);
 
     useEffect(() => {
@@ -52,6 +74,7 @@ export function StatsProvider({ children }: { children: React.ReactNode }) {
     return (
         <StatsContext.Provider value={{ savings, config, loading, refreshStats }}>
             {children}
+            {showPaywall && <Paywall />}
         </StatsContext.Provider>
     );
 }

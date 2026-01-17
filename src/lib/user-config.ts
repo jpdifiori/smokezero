@@ -14,6 +14,11 @@ export interface UserConfig {
     total_identity_votes?: number;
     pack_size?: number;
     setup_completed?: boolean;
+    created_at?: string;
+    stripe_customer_id?: string;
+    stripe_subscription_id?: string;
+    subscription_status?: 'trial' | 'active' | 'past_due' | 'canceled' | 'unpaid';
+    subscription_end_date?: string;
 }
 
 export async function getUserConfig() {
