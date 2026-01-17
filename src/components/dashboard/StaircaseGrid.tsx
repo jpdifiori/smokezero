@@ -109,10 +109,6 @@ export function StaircaseGrid({ hideHeader = false }: { hideHeader?: boolean }) 
                         );
                     })}
                 </div>
-
-                {/* Gradient Fades for Carousel indicators */}
-                <div className="absolute top-0 right-0 bottom-8 w-20 bg-gradient-to-l from-core-black to-transparent pointer-events-none z-10" />
-                <div className="absolute top-0 left-0 bottom-8 w-20 bg-gradient-to-r from-core-black to-transparent pointer-events-none z-10" />
             </div>
 
             <AnimatePresence>
@@ -124,7 +120,7 @@ export function StaircaseGrid({ hideHeader = false }: { hideHeader?: boolean }) 
                     />
                 )}
             </AnimatePresence>
-        </section>
+        </section >
     );
 }
 
@@ -139,9 +135,9 @@ function MilestoneCard({ goal, onEdit }: { goal: any, onEdit: () => void }) {
             onClick={onEdit}
             className={`
                 relative p-6 md:p-8 rounded-[32px] md:rounded-[40px] border transition-all cursor-default
-                ${isActive ? 'bg-zinc-900 border-lime-lift/40 shadow-[0_0_50px_rgba(209,255,116,0.15)] cursor-pointer ring-1 ring-lime-lift/20' : ''}
-                ${isAchieved ? 'bg-zinc-900/50 border-white/10 opacity-80' : ''}
-                ${isLocked ? 'bg-transparent border-white/5 opacity-60' : ''}
+                ${isActive ? 'bg-zinc-900 border-lime-lift cursor-pointer' : ''}
+                ${isAchieved ? 'bg-zinc-900 border-white/20' : ''}
+                ${isLocked ? 'bg-zinc-900/20 border-white/5' : ''}
                 h-full flex flex-col justify-between
             `}
         >
@@ -164,7 +160,7 @@ function MilestoneCard({ goal, onEdit }: { goal: any, onEdit: () => void }) {
 
             <div className="mt-8 space-y-4">
                 {goal.goal_name && (
-                    <div className={`${isActive ? 'bg-white/5 p-5 rounded-2xl border border-white/5' : 'pt-4 border-t border-white/5'} w-full`}>
+                    <div className={`${isActive ? 'p-5 rounded-2xl border border-white/5' : 'pt-4 border-t border-white/5'} w-full`}>
                         <p className={`font-serif italic text-white ${isActive ? 'text-lg' : 'text-sm line-clamp-1'}`}>"{goal.goal_name}"</p>
                         <p className="text-xs font-mono text-lime-lift mt-2 font-bold">${goal.target_amount}</p>
 
@@ -188,14 +184,7 @@ function MilestoneCard({ goal, onEdit }: { goal: any, onEdit: () => void }) {
                 )}
             </div>
 
-            {isActive && (
-                <div className="absolute top-4 right-6">
-                    <div className="flex gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-lime-lift animate-ping" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-lime-lift" />
-                    </div>
-                </div>
-            )}
+            {/* Removed pulsing dots for cleaner look */}
         </motion.div>
     );
 }
