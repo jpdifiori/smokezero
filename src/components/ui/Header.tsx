@@ -81,7 +81,7 @@ export default function Header({ user }: { user: User | null }) {
                                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                className="absolute right-0 mt-3 w-[calc(100vw-2rem)] sm:w-80 bg-zinc-900 border border-white/10 rounded-[32px] shadow-2xl overflow-hidden p-2"
+                                className="fixed top-20 left-4 right-4 sm:absolute sm:top-auto sm:left-auto sm:right-0 sm:mt-3 sm:w-80 bg-zinc-900 border border-white/10 rounded-[32px] shadow-2xl overflow-hidden p-2"
                             >
                                 <div className="p-4 space-y-6 relative">
                                     <button
