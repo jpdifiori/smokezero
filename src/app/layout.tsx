@@ -65,7 +65,7 @@ export default async function RootLayout({
           {user && (
             <>
               <GuardianFAB />
-              <BottomNav />
+              {/* <BottomNav /> */}
             </>
           )}
         </StatsProvider>
