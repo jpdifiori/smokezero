@@ -351,7 +351,7 @@ export async function getUserComprehensiveContext() {
     const primaryFocus = topFocus[0];
 
     const focusText = `
-        NOMRE: ${config.data?.first_name || 'No especificado'} ${config.data?.last_name || ''}.
+        NOMBRE: ${config.data?.first_name || 'No especificado'} ${config.data?.last_name || ''}.
         PROFESIÓN: ${config.data?.profession || 'No especificada'}.
         FOCO PRINCIPAL: "${primaryFocus?.entity_name}" (${primaryFocus?.category}).
         APOYOS: ${topFocus.slice(1).map(f => `"${f.entity_name}"`).join(', ')}.
@@ -440,7 +440,7 @@ export async function getAdaptiveMission(context?: {
             1. PERSONALIZACIÓN: Sé específico según el perfil.
             2. EVITA REPETICIÓN: No uses frases de los FALLOS RECIENTES.
             3. ADAPTACIÓN FÍSICA: Si Capacidad es STATIC: NO sugieras movimiento. 
-            4. TONO: Directo, de comando. 
+            4. TONO: Directo, de comando. Usa el nombre (${coreContext.config?.first_name || 'Usuario'}) si da más fuerza. 
 
             Responde ÚNICAMENTE con la frase de la misión.
         `;
@@ -476,7 +476,7 @@ export async function getDistractionPrompt() {
             - LOGIC: Cuestiona la irracionalidad del impulso actual.
 
             Reglas:
-            1. Tono: Desafiante, de élite, sin rodeos. 
+            1. Tono: Desafiante, de élite, sin rodeos. Usa el nombre ${coreContext.config?.first_name ? `(${coreContext.config.first_name}) ` : ''}para interpelar.
             2. Evita clichés. Ataca el impulso directamente.
 
             Responde ÚNICAMENTE con la pregunta.

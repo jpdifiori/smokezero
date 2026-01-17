@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Zap, X, Send, Sparkles, Heart, Activity, Target, MessageSquare } from 'lucide-react';
 import { GuardianChat } from './GuardianChat';
+import { useGuardian } from './GuardianContext';
 
 export function GuardianFAB() {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isGuardianOpen, openGuardian, closeGuardian } = useGuardian();
 
     return (
         <>
@@ -35,7 +36,7 @@ export function GuardianFAB() {
                     }}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={() => setIsOpen(true)}
+                    onClick={openGuardian}
                     className="w-14 h-14 bg-core-black border-2 border-lime-lift rounded-full flex items-center justify-center transition-transform group overflow-hidden pointer-events-auto"
                 >
                     {/* Living Shine Effect */}
@@ -63,13 +64,13 @@ export function GuardianFAB() {
 
             {/* Chat Drawer / Overlay */}
             <AnimatePresence>
-                {isOpen && (
+                {isGuardianOpen && (
                     <>
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            onClick={() => setIsOpen(false)}
+                            onClick={closeGuardian}
                             className="fixed inset-0 z-[1100] bg-black/40 backdrop-blur-sm sm:hidden"
                         />
                         <motion.div
@@ -79,7 +80,7 @@ export function GuardianFAB() {
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                             className="fixed bottom-0 left-0 right-0 sm:right-6 sm:left-auto sm:bottom-24 z-[1200] sm:w-[400px] bg-zinc-900 border-t sm:border border-white/10 rounded-t-[32px] sm:rounded-[40px] shadow-2xl overflow-hidden flex flex-col h-[85vh] sm:h-[650px]"
                         >
-                            <GuardianChat onClose={() => setIsOpen(false)} />
+                            <GuardianChat onClose={closeGuardian} />
                         </motion.div>
                     </>
                 )}

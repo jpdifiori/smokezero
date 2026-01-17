@@ -76,12 +76,12 @@ export default function Header({ user }: { user: User | null }) {
                 <AnimatePresence>
                     {isOpen && (
                         <>
-                            <div className="fixed inset-0 z-[-1]" onClick={() => setIsOpen(false)} />
+                            <div className="fixed inset-0 z-[49] bg-transparent" onClick={() => setIsOpen(false)} />
                             <motion.div
                                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                className="fixed top-20 left-4 right-4 sm:absolute sm:top-auto sm:left-auto sm:right-0 sm:mt-3 sm:w-80 bg-zinc-900 border border-white/10 rounded-[32px] shadow-2xl overflow-hidden p-2"
+                                className="fixed top-20 left-4 right-4 z-[50] sm:absolute sm:top-auto sm:left-auto sm:right-0 sm:mt-3 sm:w-80 bg-zinc-900 border border-white/10 rounded-[32px] shadow-2xl overflow-hidden p-2"
                             >
                                 <div className="p-4 space-y-6 relative">
                                     <button

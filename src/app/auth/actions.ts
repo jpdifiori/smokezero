@@ -33,6 +33,8 @@ export async function signup(formData: FormData) {
     const cigs_per_day = parseInt(formData.get('cigs_per_day') as string)
     const pack_price_input = parseFloat(formData.get('pack_price') as string)
     const pack_size = parseInt(formData.get('pack_size') as string)
+    const first_name = formData.get('first_name') as string
+    const last_name = formData.get('last_name') as string
 
     const normalized_pack_price = pack_size === 10 ? pack_price_input * 2 : pack_price_input
 
@@ -44,6 +46,8 @@ export async function signup(formData: FormData) {
             data: {
                 cigs_per_day,
                 pack_price: normalized_pack_price,
+                first_name: first_name,
+                last_name: last_name,
                 identity_anchor: 'Libre'
             }
         }
@@ -68,6 +72,8 @@ export async function saveConfig(formData: FormData) {
     const cigs_per_day = parseInt(formData.get('cigs_per_day') as string)
     const pack_price_input = parseFloat(formData.get('pack_price') as string)
     const pack_size = parseInt(formData.get('pack_size') as string)
+    const first_name = formData.get('first_name') as string
+    const last_name = formData.get('last_name') as string
 
     const normalized_pack_price = pack_size === 10 ? pack_price_input * 2 : pack_price_input
 
@@ -79,6 +85,8 @@ export async function saveConfig(formData: FormData) {
             cigs_per_day: cigs_per_day,
             pack_price: normalized_pack_price,
             pack_size: pack_size,
+            first_name: first_name,
+            last_name: last_name,
             setup_completed: true,
             identity_anchor: 'Libre'
         })

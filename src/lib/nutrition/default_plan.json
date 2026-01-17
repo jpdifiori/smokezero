@@ -1,0 +1,1223 @@
+{
+    "code": "smokezero_30d_v2",
+    "name": "Plan 30 días SmokeZero - Alimentación (Semanal Rotativo)",
+    "description": "Plan nutricional estratégico de 30 días diseñado para estabilizar la dopamina y reducir la ansiedad durante la cesación tabáquica. Semana 1=A, Semana 2=B, Semana 3=A, Semana 4=B. Cada semana incluye 7 días con 8 momentos diarios.",
+    "templates": [
+        {
+            "code": "A",
+            "name": "Plantilla Base - Semana 1 y 3",
+            "days": [
+                {
+                    "day": 1,
+                    "name": "Día 1",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua fría + limón (vaso grande).",
+                                "Opción 2: Agua con gas + limón (vaso grande).",
+                                "Opción 3: Agua + pizca mínima de sal (si te sentís débil)."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Yogur griego + avena + banana + nueces.",
+                                "Opción 2: 2 huevos + tostada integral + 1 fruta.",
+                                "Opción 3: Avena cocida con canela + manzana."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Manzana + chicle sin azúcar.",
+                                "Opción 2: Zanahoria en bastones + hummus.",
+                                "Opción 3: Yogur natural + frutos rojos."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pollo a la plancha + arroz integral + ensalada grande.",
+                                "Opción 2: Atún al natural + papa/batata + ensalada.",
+                                "Opción 3: Lentejas (plato completo) + ensalada grande."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té caliente + 5 respiraciones lentas (2 min).",
+                                "Opción 2: Pepino con sal y limón (oral fix).",
+                                "Opción 3: Chicle sin azúcar + agua fría."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Licuado: banana + leche (o vegetal) + hielo.",
+                                "Opción 2: Mate/infusión + tostada integral con queso.",
+                                "Opción 3: 1 fruta + 10 almendras."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Omelette de verduras + ensalada.",
+                                "Opción 2: Carne magra + verduras al horno.",
+                                "Opción 3: Pescado + puré de calabaza + ensalada."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión relajante (manzanilla/tilo).",
+                                "Opción 2: Leche tibia (o vegetal) sin azúcar.",
+                                "Opción 3: Yogur chico o 1 kiwi (si hay hambre real)."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 2,
+                    "name": "Día 2",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua natural + limón.",
+                                "Opción 2: Agua fría + 3 respiraciones profundas.",
+                                "Opción 3: Agua con gas + rodaja de naranja."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Tostada integral + palta + 1 huevo.",
+                                "Opción 2: Yogur natural + avena + pera.",
+                                "Opción 3: Smoothie: leche/yogur + frutilla + banana."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Naranja + 10 nueces.",
+                                "Opción 2: Pepino en bastones + queso.",
+                                "Opción 3: Banana + chicle sin azúcar."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Carne magra + puré de batata + ensalada.",
+                                "Opción 2: Ensalada completa (huevo + pollo + verduras + aceite de oliva).",
+                                "Opción 3: Garbanzos salteados + verduras + arroz (bowl)."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Agua con gas + limón (ritual).",
+                                "Opción 2: Té verde suave + 5 respiraciones.",
+                                "Opción 3: Bastones de zanahoria (masticación fuerte)."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Yogur + semillas (chía).",
+                                "Opción 2: Huevo duro + fruta.",
+                                "Opción 3: Infusión + tostada integral con mantequilla de maní."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Pollo al horno + verduras salteadas.",
+                                "Opción 2: Sopa de verduras + tostada integral.",
+                                "Opción 3: Ensalada de atún + palta + tomate."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión de manzanilla.",
+                                "Opción 2: Leche tibia con canela.",
+                                "Opción 3: 1 manzana (si hay hambre real)."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 3,
+                    "name": "Día 3",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua fría + limón.",
+                                "Opción 2: Agua natural + 2 minutos de caminata suave.",
+                                "Opción 3: Agua con gas + limón + hielo."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Omelette simple + tostada integral.",
+                                "Opción 2: Yogur + granola + banana.",
+                                "Opción 3: Avena con cacao amargo + fruta."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Pera + 10 almendras.",
+                                "Opción 2: Apio + hummus.",
+                                "Opción 3: Yogur + fruta."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pescado + arroz + ensalada.",
+                                "Opción 2: Pollo salteado + verduras + quinoa.",
+                                "Opción 3: Ensalada tibia de lentejas + verduras."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té caliente + respiración lenta.",
+                                "Opción 2: Pepino con limón.",
+                                "Opción 3: Chicle sin azúcar + agua."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Licuado banana + leche + hielo.",
+                                "Opción 2: Infusión + tostada integral con queso.",
+                                "Opción 3: Fruta + nueces."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Carne magra + ensalada grande.",
+                                "Opción 2: Tortilla de verduras + ensalada.",
+                                "Opción 3: Pollo + puré de calabaza."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión relajante.",
+                                "Opción 2: Yogur chico.",
+                                "Opción 3: Kiwi (si hay hambre real)."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 4,
+                    "name": "Día 4",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua + limón.",
+                                "Opción 2: Agua fría + respiración 4-6 (2 min).",
+                                "Opción 3: Agua con gas + limón."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Yogur griego + avena + frutilla.",
+                                "Opción 2: 2 huevos + tostada integral + naranja.",
+                                "Opción 3: Avena cocida + canela + pera."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Manzana + almendras.",
+                                "Opción 2: Zanahoria + hummus.",
+                                "Opción 3: Yogur natural + fruta."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pollo + fideos integrales + ensalada.",
+                                "Opción 2: Carne magra + ensalada + arroz.",
+                                "Opción 3: Bowl de garbanzos + verduras + palta."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té + 5 respiraciones lentas.",
+                                "Opción 2: Agua con gas + limón.",
+                                "Opción 3: Pepino con sal y limón."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Yogur + chía.",
+                                "Opción 2: Mate/infusión + tostada integral.",
+                                "Opción 3: Fruta + nueces."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Pescado + verduras al horno.",
+                                "Opción 2: Omelette de verduras + ensalada.",
+                                "Opción 3: Pollo + ensalada + papa."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión de tilo/manzanilla.",
+                                "Opción 2: Leche tibia.",
+                                "Opción 3: Kiwi o yogur chico (si hay hambre real)."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 5,
+                    "name": "Día 5",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua fría + limón.",
+                                "Opción 2: Agua con gas + limón.",
+                                "Opción 3: Agua natural + caminata 2 min."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Tostadas integrales + queso + fruta.",
+                                "Opción 2: Yogur + banana + avena.",
+                                "Opción 3: Omelette + tomate + tostada integral."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Pera + almendras.",
+                                "Opción 2: Apio + queso.",
+                                "Opción 3: Manzana + chicle sin azúcar."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Ensalada completa (pollo + huevo + verduras).",
+                                "Opción 2: Pescado + papa + ensalada.",
+                                "Opción 3: Lentejas + arroz + verduras."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té caliente + respiración.",
+                                "Opción 2: Chicle sin azúcar + agua.",
+                                "Opción 3: Zanahoria en bastones."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Licuado de banana + cacao amargo.",
+                                "Opción 2: Infusión + tostada integral con mantequilla de maní.",
+                                "Opción 3: Yogur + fruta."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Carne magra + verduras salteadas.",
+                                "Opción 2: Sopa + tostada integral.",
+                                "Opción 3: Ensalada de atún + palta."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión relajante.",
+                                "Opción 2: Leche tibia con canela.",
+                                "Opción 3: 1 fruta liviana (si hay hambre real)."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 6,
+                    "name": "Día 6",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua + limón.",
+                                "Opción 2: Agua fría + 3 respiraciones profundas.",
+                                "Opción 3: Agua con gas + hielo + limón."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Yogur + granola + fruta.",
+                                "Opción 2: 2 huevos + tostada integral + banana.",
+                                "Opción 3: Avena cocida + cacao amargo + manzana."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Naranja + nueces.",
+                                "Opción 2: Pepino + hummus.",
+                                "Opción 3: Yogur natural."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pollo + quinoa + ensalada.",
+                                "Opción 2: Carne magra + papa/batata + ensalada.",
+                                "Opción 3: Garbanzos + verduras salteadas (bowl)."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té + respiración lenta.",
+                                "Opción 2: Pepino con limón.",
+                                "Opción 3: Chicle sin azúcar + agua fría."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Fruta + 10 almendras.",
+                                "Opción 2: Mate/infusión + tostada integral con queso.",
+                                "Opción 3: Licuado de frutas + hielo."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Pescado + ensalada grande.",
+                                "Opción 2: Tortilla de verduras + ensalada.",
+                                "Opción 3: Pollo al horno + verduras al horno."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión de manzanilla.",
+                                "Opción 2: Yogur chico.",
+                                "Opción 3: Kiwi (si hay hambre real)."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 7,
+                    "name": "Día 7",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua fría + limón.",
+                                "Opción 2: Agua con gas + limón.",
+                                "Opción 3: Agua natural + respiración 4-6 (2 min)."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Omelette + tostada integral + fruta.",
+                                "Opción 2: Yogur griego + avena + frutos rojos.",
+                                "Opción 3: Avena cocida + canela + banana."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Manzana + nueces.",
+                                "Opción 2: Zanahoria + hummus.",
+                                "Opción 3: Pera + chicle sin azúcar."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pasta integral + pollo + ensalada.",
+                                "Opción 2: Ensalada completa (atún + huevo + verduras).",
+                                "Opción 3: Lentejas + verduras al horno."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té caliente + 5 respiraciones lentas.",
+                                "Opción 2: Agua con gas + limón.",
+                                "Opción 3: Pepino con sal y limón."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Yogur + chía.",
+                                "Opción 2: Huevo duro + fruta.",
+                                "Opción 3: Licuado banana + leche + hielo."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Carne magra + ensalada + verduras.",
+                                "Opción 2: Sopa de verduras + tostada integral.",
+                                "Opción 3: Pescado + puré de calabaza."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión relajante.",
+                                "Opción 2: Leche tibia.",
+                                "Opción 3: 1 cuadradito de chocolate 85% + té (si hay ansiedad)."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "B",
+            "name": "Plantilla Alternativa - Semana 2 y 4",
+            "days": [
+                {
+                    "day": 1,
+                    "name": "Día 1",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua natural + limón.",
+                                "Opción 2: Agua fría + caminata suave 2 min.",
+                                "Opción 3: Agua con gas + limón + hielo."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Tostadas integrales + mantequilla de maní + fruta.",
+                                "Opción 2: Yogur natural + granola + fruta.",
+                                "Opción 3: Smoothie: yogur/leche + banana + cacao amargo."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Pera + nueces.",
+                                "Opción 2: Apio + queso.",
+                                "Opción 3: Naranja + 10 almendras."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Carne magra + arroz + verduras.",
+                                "Opción 2: Pollo al horno + batata + ensalada.",
+                                "Opción 3: Ensalada completa (huevo + atún + palta)."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Agua con gas + limón.",
+                                "Opción 2: Té caliente + frase: “solo por hoy no fumo”.",
+                                "Opción 3: Bastones de zanahoria (masticación fuerte)."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Yogur + semillas (chía).",
+                                "Opción 2: Huevo duro + fruta.",
+                                "Opción 3: Licuado de frutas + hielo."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Hamburguesa casera + ensalada grande.",
+                                "Opción 2: Sopa + tostada integral.",
+                                "Opción 3: Pasta integral + pollo + ensalada."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión + 10 nueces.",
+                                "Opción 2: 1 cuadradito de chocolate 85% + té.",
+                                "Opción 3: Fruta liviana (kiwi o manzana) si hay hambre real."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 2,
+                    "name": "Día 2",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua + 3 respiraciones profundas.",
+                                "Opción 2: Agua fría + limón.",
+                                "Opción 3: Agua con gas + rodaja de naranja."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Yogur + avena + banana.",
+                                "Opción 2: 2 huevos + tostada integral + fruta.",
+                                "Opción 3: Tostada integral + palta + tomate."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Manzana + almendras.",
+                                "Opción 2: Pepino + hummus.",
+                                "Opción 3: Yogur natural + fruta."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pescado + arroz + ensalada.",
+                                "Opción 2: Bowl de garbanzos + verduras + palta.",
+                                "Opción 3: Pollo salteado + verduras + quinoa."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té verde suave + agua.",
+                                "Opción 2: Agua con gas + limón.",
+                                "Opción 3: Chicle sin azúcar + agua fría."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Infusión + tostada integral con queso.",
+                                "Opción 2: Yogur + chía.",
+                                "Opción 3: Fruta + 10 nueces."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Carne magra + verduras al horno.",
+                                "Opción 2: Omelette de verduras + ensalada.",
+                                "Opción 3: Ensalada completa (atún + huevo + verduras)."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión relajante.",
+                                "Opción 2: Leche tibia.",
+                                "Opción 3: Yogur chico si hay hambre real."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 3,
+                    "name": "Día 3",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua con gas + limón.",
+                                "Opción 2: Agua fría + caminata 2 min.",
+                                "Opción 3: Agua natural + limón."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Avena cocida + canela + manzana.",
+                                "Opción 2: Yogur + granola + fruta.",
+                                "Opción 3: 2 huevos + tostada integral."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Naranja + almendras.",
+                                "Opción 2: Zanahoria + hummus.",
+                                "Opción 3: Manzana + chicle sin azúcar."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pollo + papa + ensalada.",
+                                "Opción 2: Lentejas + verduras (plato completo).",
+                                "Opción 3: Carne magra + arroz integral + ensalada."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Pepino con limón.",
+                                "Opción 2: Té caliente + respiración lenta.",
+                                "Opción 3: Agua con gas + limón."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Licuado banana + leche + hielo.",
+                                "Opción 2: Huevo duro + fruta.",
+                                "Opción 3: Yogur + frutos rojos."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Sopa de verduras + tostada integral.",
+                                "Opción 2: Pescado + puré de calabaza.",
+                                "Opción 3: Pollo al horno + verduras salteadas."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión de manzanilla.",
+                                "Opción 2: Chocolate 85% (1 cuadradito) + té (si hay ansiedad).",
+                                "Opción 3: Kiwi o manzana si hay hambre real."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 4,
+                    "name": "Día 4",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua natural + limón.",
+                                "Opción 2: Agua + 3 respiraciones profundas.",
+                                "Opción 3: Agua con gas + limón + hielo."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Tostadas integrales + mantequilla de maní + fruta.",
+                                "Opción 2: Yogur + avena + pera.",
+                                "Opción 3: Omelette + tostada integral."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Pera + nueces.",
+                                "Opción 2: Apio + queso.",
+                                "Opción 3: Naranja + almendras."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Ensalada completa (pollo + huevo + verduras).",
+                                "Opción 2: Pescado + batata + ensalada.",
+                                "Opción 3: Garbanzos + arroz + verduras (bowl)."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té caliente + frase: “solo por hoy no fumo”.",
+                                "Opción 2: Bastones de zanahoria (masticación fuerte).",
+                                "Opción 3: Agua con gas + limón."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Yogur + chía.",
+                                "Opción 2: Fruta + 10 nueces.",
+                                "Opción 3: Infusión + tostada integral con queso."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Hamburguesa casera + ensalada grande.",
+                                "Opción 2: Omelette de verduras + ensalada.",
+                                "Opción 3: Pasta integral + pollo + ensalada."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión relajante.",
+                                "Opción 2: Leche tibia con canela.",
+                                "Opción 3: Yogur chico si hay hambre real."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 5,
+                    "name": "Día 5",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua fría + limón.",
+                                "Opción 2: Agua con gas + limón.",
+                                "Opción 3: Agua + caminata 2 min."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Yogur + granola + fruta.",
+                                "Opción 2: 2 huevos + tostada integral + fruta.",
+                                "Opción 3: Avena con cacao amargo + banana."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Manzana + nueces.",
+                                "Opción 2: Pepino + hummus.",
+                                "Opción 3: Naranja + almendras."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pollo + quinoa + ensalada.",
+                                "Opción 2: Carne magra + papa + ensalada.",
+                                "Opción 3: Lentejas + verduras al horno."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Chicle sin azúcar + agua fría.",
+                                "Opción 2: Pepino con limón.",
+                                "Opción 3: Té caliente + respiración lenta."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Licuado de frutas + hielo.",
+                                "Opción 2: Huevo duro + fruta.",
+                                "Opción 3: Yogur natural + frutos rojos."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Carne magra + verduras salteadas.",
+                                "Opción 2: Sopa + tostada integral.",
+                                "Opción 3: Ensalada de atún + palta + tomate."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión + 10 nueces.",
+                                "Opción 2: Chocolate 85% (1 cuadradito) + té (si hay ansiedad).",
+                                "Opción 3: Kiwi o manzana si hay hambre real."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 6,
+                    "name": "Día 6",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua con gas + limón.",
+                                "Opción 2: Agua natural + limón.",
+                                "Opción 3: Agua + 3 respiraciones profundas."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Omelette + tostada integral + fruta.",
+                                "Opción 2: Yogur + avena + banana.",
+                                "Opción 3: Avena cocida + canela + manzana."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Pera + nueces.",
+                                "Opción 2: Zanahoria + hummus.",
+                                "Opción 3: Yogur natural."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Pescado + arroz integral + ensalada.",
+                                "Opción 2: Pollo al horno + batata + ensalada.",
+                                "Opción 3: Ensalada completa (huevo + atún + verduras)."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Agua con gas + limón.",
+                                "Opción 2: Bastones de zanahoria (masticación fuerte).",
+                                "Opción 3: Té caliente + frase: “solo por hoy no fumo”."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Yogur + chía.",
+                                "Opción 2: Fruta + 10 almendras.",
+                                "Opción 3: Infusión + tostada integral con queso."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Pollo al horno + verduras al horno.",
+                                "Opción 2: Pasta integral + pollo + ensalada.",
+                                "Opción 3: Omelette de verduras + ensalada."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión relajante.",
+                                "Opción 2: Leche tibia.",
+                                "Opción 3: Yogur chico si hay hambre real."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "day": 7,
+                    "name": "Día 7",
+                    "moments": [
+                        {
+                            "code": "M1",
+                            "name": "Al Despertar",
+                            "order": 1,
+                            "options": [
+                                "Opción 1: Agua fría + limón.",
+                                "Opción 2: Agua con gas + limón.",
+                                "Opción 3: Agua natural + caminata 2 min."
+                            ]
+                        },
+                        {
+                            "code": "M2",
+                            "name": "Desayuno",
+                            "order": 2,
+                            "options": [
+                                "Opción 1: Yogur griego + avena + frutos rojos.",
+                                "Opción 2: 2 huevos + tostada integral + fruta.",
+                                "Opción 3: Avena cocida + canela + banana."
+                            ]
+                        },
+                        {
+                            "code": "M3",
+                            "name": "Media Mañana",
+                            "order": 3,
+                            "options": [
+                                "Opción 1: Manzana + almendras.",
+                                "Opción 2: Pepino + hummus.",
+                                "Opción 3: Naranja + nueces."
+                            ]
+                        },
+                        {
+                            "code": "M4",
+                            "name": "Almuerzo",
+                            "order": 4,
+                            "options": [
+                                "Opción 1: Carne magra + arroz + verduras.",
+                                "Opción 2: Pollo + papa/batata + ensalada.",
+                                "Opción 3: Garbanzos + verduras + quinoa (bowl)."
+                            ]
+                        },
+                        {
+                            "code": "M5",
+                            "name": "Post Almuerzo (Anti-Cigarrillo)",
+                            "order": 5,
+                            "options": [
+                                "Opción 1: Té caliente + respiración lenta.",
+                                "Opción 2: Pepino con sal y limón.",
+                                "Opción 3: Chicle sin azúcar + agua fría."
+                            ]
+                        },
+                        {
+                            "code": "M6",
+                            "name": "Merienda",
+                            "order": 6,
+                            "options": [
+                                "Opción 1: Licuado banana + leche + hielo.",
+                                "Opción 2: Huevo duro + fruta.",
+                                "Opción 3: Yogur + semillas (chía)."
+                            ]
+                        },
+                        {
+                            "code": "M7",
+                            "name": "Cena",
+                            "order": 7,
+                            "options": [
+                                "Opción 1: Pescado + puré de calabaza + ensalada.",
+                                "Opción 2: Hamburguesa casera + ensalada grande.",
+                                "Opción 3: Sopa + tostada integral."
+                            ]
+                        },
+                        {
+                            "code": "M8",
+                            "name": "Noche (Anti-Ansiedad / Sueño)",
+                            "order": 8,
+                            "options": [
+                                "Opción 1: Infusión + 10 nueces.",
+                                "Opción 2: Chocolate 85% (1 cuadradito) + té (si hay ansiedad).",
+                                "Opción 3: Kiwi o yogur chico si hay hambre real."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

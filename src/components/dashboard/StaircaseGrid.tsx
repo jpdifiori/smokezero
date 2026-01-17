@@ -6,7 +6,7 @@ import { Trophy, Lock, CheckCircle2, Image as ImageIcon, Sparkles, X, ChevronLef
 import { getSavingsGoals, updateSavingsGoal } from '@/app/actions';
 import { useRef } from 'react';
 
-export function StaircaseGrid() {
+export function StaircaseGrid({ hideHeader = false }: { hideHeader?: boolean }) {
     const [goals, setGoals] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingGoal, setEditingGoal] = useState<any>(null);
@@ -19,8 +19,23 @@ export function StaircaseGrid() {
     };
 
     useEffect(() => {
-        fetchGoals();
+        const load = async () => {
+            await fetchGoals();
+        };
+        load();
     }, []);
+
+    // Auto-scroll to active goal on mount
+    useEffect(() => {
+        if (!loading && goals.length > 0 && scrollRef.current) {
+            const container = scrollRef.current;
+            const activeCard = container.querySelector('[data-active="true"]');
+            if (activeCard) {
+                const scrollLeft = (activeCard as HTMLElement).offsetLeft - container.offsetWidth / 2 + (activeCard as HTMLElement).offsetWidth / 2;
+                container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            }
+        }
+    }, [loading, goals]);
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
@@ -40,50 +55,59 @@ export function StaircaseGrid() {
     if (loading) return null;
 
     return (
-        <section className="w-full mt-12 mb-20 px-4">
-            <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-lime-lift/10 rounded-xl flex items-center justify-center">
-                        <Trophy className="text-lime-lift w-5 h-5" />
+        <section className={`w-full ${hideHeader ? 'mt-4' : 'mt-12'} mb-20 px-4`}>
+            {!hideHeader && (
+                <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-lime-lift/10 rounded-xl flex items-center justify-center">
+                            <Trophy className="text-lime-lift w-5 h-5" />
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold text-white uppercase tracking-tighter">Mi Escalera de Libertad</h2>
+                            <p className="text-xs text-zinc-500 uppercase tracking-widest">Hitos de Victoria Secuenciales</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 className="text-xl font-bold text-white uppercase tracking-tighter">Mi Escalera de Libertad</h2>
-                        <p className="text-xs text-zinc-500 uppercase tracking-widest">Hitos de Victoria Secuenciales</p>
+
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => scroll('left')}
+                            className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                            aria-label="Anterior"
+                        >
+                            <ChevronLeft className="w-5 h-5 text-white/50" />
+                        </button>
+                        <button
+                            onClick={() => scroll('right')}
+                            className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                            aria-label="Siguiente"
+                        >
+                            <ChevronRight className="w-5 h-5 text-white/50" />
+                        </button>
                     </div>
                 </div>
+            )}
 
-                <div className="flex gap-2">
-                    <button
-                        onClick={() => scroll('left')}
-                        className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
-                        aria-label="Anterior"
-                    >
-                        <ChevronLeft className="w-5 h-5 text-white/50" />
-                    </button>
-                    <button
-                        onClick={() => scroll('right')}
-                        className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
-                        aria-label="Siguiente"
-                    >
-                        <ChevronRight className="w-5 h-5 text-white/50" />
-                    </button>
-                </div>
-            </div>
-
-            <div className="relative w-full">
+            <div className={`relative w-full ${hideHeader ? 'mt-0' : ''}`}>
                 <div
                     ref={scrollRef}
                     className="flex gap-4 overflow-x-auto pb-8 pt-2 px-2 scrollbar-hide snap-x snap-mandatory scroll-smooth"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
-                    {goals.map((goal, index) => (
-                        <div key={goal.milestone_days} className="flex-none w-[200px] md:w-[240px] snap-center">
-                            <MilestoneCard
-                                goal={goal}
-                                onEdit={() => goal.status === 'active' && setEditingGoal(goal)}
-                            />
-                        </div>
-                    ))}
+                    {goals.map((goal, index) => {
+                        const isActive = goal.status === 'active';
+                        return (
+                            <div
+                                key={goal.milestone_days}
+                                className={`flex-none snap-center transition-all duration-500 ${isActive ? 'w-[300px] md:w-[400px]' : 'w-[180px] md:w-[220px]'}`}
+                                data-active={isActive}
+                            >
+                                <MilestoneCard
+                                    goal={goal}
+                                    onEdit={() => isActive && setEditingGoal(goal)}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
 
                 {/* Gradient Fades for Carousel indicators */}
@@ -114,41 +138,64 @@ function MilestoneCard({ goal, onEdit }: { goal: any, onEdit: () => void }) {
             whileHover={isActive ? { y: -5 } : {}}
             onClick={onEdit}
             className={`
-                relative p-4 md:p-6 rounded-[28px] md:rounded-[32px] border transition-all cursor-default
-                ${isActive ? 'bg-zinc-900 border-lime-lift/40 shadow-[0_0_30px_rgba(209,255,116,0.1)] cursor-pointer' : ''}
+                relative p-6 md:p-8 rounded-[32px] md:rounded-[40px] border transition-all cursor-default
+                ${isActive ? 'bg-zinc-900 border-lime-lift/40 shadow-[0_0_50px_rgba(209,255,116,0.15)] cursor-pointer ring-1 ring-lime-lift/20' : ''}
                 ${isAchieved ? 'bg-zinc-900/50 border-white/10 opacity-80' : ''}
                 ${isLocked ? 'bg-transparent border-white/5 opacity-60' : ''}
+                h-full flex flex-col justify-between
             `}
         >
-            <div className="flex flex-col items-center text-center gap-4">
+            <div className={`flex ${isActive ? 'flex-row items-start' : 'flex-col items-center'} text-center gap-6`}>
                 <div className={`
-                    w-12 h-12 rounded-2xl flex items-center justify-center
+                    shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center
                     ${isActive ? 'bg-lime-lift text-core-black' : 'bg-zinc-800 text-zinc-500'}
                     ${isAchieved ? 'bg-white/10 text-lime-lift' : ''}
                 `}>
-                    {isAchieved ? <CheckCircle2 className="w-6 h-6" /> : (isLocked ? <Lock className="w-5 h-5" /> : <Sparkles className="w-6 h-6" />)}
+                    {isAchieved ? <CheckCircle2 className="w-7 h-7" /> : (isLocked ? <Lock className="w-6 h-6" /> : <Sparkles className="w-7 h-7" />)}
                 </div>
 
-                <div>
-                    <span className="text-2xl font-mono font-bold block">Día {goal.milestone_days}</span>
-                    <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-500">
-                        {isAchieved ? 'Conquistado' : (isActive ? 'En la Mira' : 'Bloqueado')}
+                <div className={isActive ? 'text-left' : ''}>
+                    <span className="text-3xl font-mono font-bold block leading-none">Día {goal.milestone_days}</span>
+                    <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 mt-1 block">
+                        {isAchieved ? 'Conquistado' : (isActive ? 'Objetivo Actual' : 'Bloqueado')}
                     </span>
                 </div>
+            </div>
 
+            <div className="mt-8 space-y-4">
                 {goal.goal_name && (
-                    <div className="pt-2 border-t border-white/5 w-full">
-                        <p className="text-xs font-serif italic text-white line-clamp-1">"{goal.goal_name}"</p>
-                        <p className="text-[10px] font-mono text-lime-lift mt-1">${goal.target_amount}</p>
+                    <div className={`${isActive ? 'bg-white/5 p-5 rounded-2xl border border-white/5' : 'pt-4 border-t border-white/5'} w-full`}>
+                        <p className={`font-serif italic text-white ${isActive ? 'text-lg' : 'text-sm line-clamp-1'}`}>"{goal.goal_name}"</p>
+                        <p className="text-xs font-mono text-lime-lift mt-2 font-bold">${goal.target_amount}</p>
+
+                        {isActive && goal.significance && (
+                            <div className="mt-4 pt-4 border-t border-white/5">
+                                <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Tu Recordatorio Vital:</p>
+                                <p className="text-sm text-zinc-300 leading-relaxed italic">
+                                    "{goal.significance}"
+                                </p>
+                            </div>
+                        )}
                     </div>
                 )}
 
                 {isActive && !goal.goal_name && (
-                    <div className="text-[10px] text-zinc-400 uppercase tracking-wider animate-pulse">
-                        Click para Definir Meta
+                    <div className="bg-lime-lift/10 p-4 rounded-2xl border border-lime-lift/20 flex items-center justify-center">
+                        <span className="text-xs text-lime-lift uppercase tracking-widest font-bold animate-pulse">
+                            Click para Definir tu Meta
+                        </span>
                     </div>
                 )}
             </div>
+
+            {isActive && (
+                <div className="absolute top-4 right-6">
+                    <div className="flex gap-1">
+                        <div className="w-1.5 h-1.5 rounded-full bg-lime-lift animate-ping" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-lime-lift" />
+                    </div>
+                </div>
+            )}
         </motion.div>
     );
 }

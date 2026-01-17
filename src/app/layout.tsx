@@ -41,7 +41,8 @@ import Header from "@/components/ui/Header";
 import { GuardianFAB } from "@/components/guardian/GuardianFAB";
 import { createClient } from "@/lib/supabase/server";
 import { StatsProvider } from "@/providers/StatsProvider";
-import { BottomNav } from "@/components/layout/BottomNav";
+import { BottomNav } from "@/components/ui/BottomNav";
+import { GuardianProvider } from "@/components/guardian/GuardianContext";
 
 export default async function RootLayout({
   children,
@@ -57,18 +58,20 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased bg-core-black text-white`}
         suppressHydrationWarning
       >
-        <StatsProvider>
-          <Header user={user} />
-          <main className="pb-24">
-            {children}
-          </main>
-          {user && (
-            <>
-              <GuardianFAB />
-              {/* <BottomNav /> */}
-            </>
-          )}
-        </StatsProvider>
+        <GuardianProvider>
+          <StatsProvider>
+            <Header user={user} />
+            <main className="pb-24">
+              {children}
+            </main>
+            {user && (
+              <>
+                <GuardianFAB />
+                <BottomNav />
+              </>
+            )}
+          </StatsProvider>
+        </GuardianProvider>
       </body>
     </html>
   );

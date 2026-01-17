@@ -141,7 +141,7 @@ export default function Home() {
                         <span className="text-white text-xl font-mono font-bold">
                           ${savings.totalSaved.toFixed(0)}
                         </span>
-                        <span className="text-[10px] text-zinc-600 uppercase">Ahorrado</span>
+                        <span className="text-[10px] text-zinc-300 uppercase">Ahorrado</span>
                       </div>
                     </div>
                   </div>
@@ -149,14 +149,14 @@ export default function Home() {
                   {/* Circular Progress: Money Saved vs Target Amount */}
                   {activeGoal && activeGoal.target_amount > 0 && (
                     <div className="flex flex-col items-center gap-1">
-                      <span className="text-[7px] text-zinc-500 uppercase tracking-tighter font-bold">Día {activeGoal.milestone_days}</span>
-                      <div className="relative w-10 h-10 flex items-center justify-center">
-                        <svg className="w-full h-full -rotate-90">
+                      <span className="text-[7px] text-zinc-300 uppercase tracking-tighter font-bold">Objetivo día {activeGoal.milestone_days}</span>
+                      <div className="relative w-12 h-12 flex items-center justify-center">
+                        <svg className="w-full h-full -rotate-90" viewBox="0 0 48 48">
                           <circle
-                            cx="20" cy="20" r="17"
+                            cx="24" cy="24" r="21"
                             fill="transparent"
                             stroke="currentColor"
-                            strokeWidth="2.5"
+                            strokeWidth="3"
                             className="text-white/5"
                           />
                           <motion.circle
@@ -165,15 +165,15 @@ export default function Home() {
                               pathLength: Math.min(1, savings.totalSaved / activeGoal.target_amount)
                             }}
                             transition={{ duration: 1.5, ease: "easeOut" }}
-                            cx="20" cy="20" r="17"
+                            cx="24" cy="24" r="21"
                             fill="transparent"
                             stroke="currentColor"
-                            strokeWidth="2.5"
+                            strokeWidth="3"
                             strokeLinecap="round"
                             className="text-lime-lift"
                           />
                         </svg>
-                        <span className="absolute text-[7px] font-mono font-bold text-lime-lift">
+                        <span className="absolute text-[8px] font-mono font-bold text-lime-lift">
                           {Math.floor(Math.min(1, savings.totalSaved / activeGoal.target_amount) * 100)}%
                         </span>
                       </div>
@@ -195,9 +195,6 @@ export default function Home() {
               <div className="w-full max-w-[280px] md:max-w-none">
                 <MasterButton onClick={startIntervention} />
               </div>
-
-              {/* Staircase Grid */}
-              <StaircaseGrid />
             </motion.div>
           )}
 

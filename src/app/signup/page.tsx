@@ -60,6 +60,31 @@ export default function SignupPage(props: {
                             />
                         </div>
 
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="first_name" className="block text-sm font-medium text-zinc-400">Nombre</label>
+                                <input
+                                    id="first_name"
+                                    name="first_name"
+                                    type="text"
+                                    required
+                                    placeholder="Juan"
+                                    className="mt-1 block w-full px-3 py-3 border border-zinc-800 placeholder-zinc-500 text-white bg-zinc-900/50 rounded-lg focus:outline-none focus:ring-orange-pulse focus:border-orange-pulse sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="last_name" className="block text-sm font-medium text-zinc-400">Apellido</label>
+                                <input
+                                    id="last_name"
+                                    name="last_name"
+                                    type="text"
+                                    required
+                                    placeholder="Pérez"
+                                    className="mt-1 block w-full px-3 py-3 border border-zinc-800 placeholder-zinc-500 text-white bg-zinc-900/50 rounded-lg focus:outline-none focus:ring-orange-pulse focus:border-orange-pulse sm:text-sm"
+                                />
+                            </div>
+                        </div>
+
                         {/* Config Fields */}
                         <div className="pt-4 border-t border-zinc-800">
                             <h3 className="text-lg font-medium text-white mb-4">Tu Hábito</h3>
