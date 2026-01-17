@@ -41,6 +41,7 @@ import Header from "@/components/ui/Header";
 import { GuardianFAB } from "@/components/guardian/GuardianFAB";
 import { createClient } from "@/lib/supabase/server";
 import { StatsProvider } from "@/providers/StatsProvider";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 export default async function RootLayout({
   children,
@@ -58,8 +59,15 @@ export default async function RootLayout({
       >
         <StatsProvider>
           <Header user={user} />
-          {children}
-          {user && <GuardianFAB />}
+          <main className="pb-24">
+            {children}
+          </main>
+          {user && (
+            <>
+              <GuardianFAB />
+              <BottomNav />
+            </>
+          )}
         </StatsProvider>
       </body>
     </html>

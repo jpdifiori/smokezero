@@ -13,10 +13,12 @@ CREATE TABLE IF NOT EXISTS smokezero.guardian_messages (
 ALTER TABLE smokezero.guardian_messages ENABLE ROW LEVEL SECURITY;
 
 -- Políticas de RLS
+DROP POLICY IF EXISTS "Users can view their own guardian messages" ON smokezero.guardian_messages;
 CREATE POLICY "Users can view their own guardian messages"
     ON smokezero.guardian_messages FOR SELECT
     USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can insert their own guardian messages" ON smokezero.guardian_messages;
 CREATE POLICY "Users can insert their own guardian messages"
     ON smokezero.guardian_messages FOR INSERT
     WITH CHECK (auth.uid() = user_id);
